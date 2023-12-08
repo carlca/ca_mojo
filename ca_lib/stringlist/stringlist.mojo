@@ -87,3 +87,71 @@ struct StringList(Stringable):
 
   fn str(borrowed self) raises -> String:
     return self.__str__()
+
+  fn first(self) raises -> String:
+    if self.__len__() > 0:
+      return self.__getitem__(0)
+    else:
+      return ""
+
+  fn last(self) raises -> String:
+    if self.__len__() > 0:
+      return self.__getitem__(self.__len__() - 1)
+    else:
+      return ""
+
+  fn last_n(self, n: Int) raises -> StringList:
+    if self.__len__() > 0:
+      var result: StringList = StringList()
+      for i in range(self.len() - n, self.len()):
+        result.append(self.__getitem__(i))
+      return result
+    else:
+      return StringList()
+
+  fn first_n(self, n: Int) raises -> StringList:
+    if self.__len__() > 0:
+      var result: StringList = StringList()
+      for i in range(0, n):
+        result.append(self.__getitem__(i))
+      return result
+    else:
+      return StringList()
+
+  fn all_but_last_n(self, n: Int) raises -> StringList:
+    if self.__len__() > 0:
+      var result: StringList = StringList()
+      for i in range(0, self.len() - n):
+        result.append(self.__getitem__(i))
+      print_no_newline("all_but_last_n")
+      print(result)  
+      return result
+    else:
+      return StringList()
+
+  fn all_but_first_n(self, n: Int) raises -> StringList:
+    if self.__len__() > 0:
+      var result: StringList = StringList()
+      for i in range(n, self.len()):
+        result.append(self.__getitem__(i))
+      return result
+    else:
+      return StringList()
+
+  fn join(self, sep: String) raises -> String:
+    return self.join(sep, False)
+
+  fn join(self, sep: String, ensure_final_sep: Bool) raises -> String:
+    var result: String = ""
+    let final_offset: Int  
+    if ensure_final_sep:
+      final_offset = 0
+    else:
+      final_offset = 1
+    if self.__len__() == 0:
+      return result
+    for i in range(self.__len__()):
+      result += self.__getitem__(i)
+      if i < self.__len__() - final_offset:
+        result += sep
+    return result

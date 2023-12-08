@@ -1,0 +1,48 @@
+import sys
+from ca_lib.string_utils import su
+from ca_lib.stringlist import StringList
+
+@value
+struct sysutils:
+
+  @staticmethod
+  fn get_full_app_name() -> String:
+    let args = sys.argv()
+    if args.__len__() > 0:
+      return args[0]
+    else:
+      return "Unknown"
+
+  @staticmethod
+  fn get_app_name() raises -> String:
+    let full_app_name = sysutils.get_full_app_name()
+    let parts = su.split(full_app_name, "/")
+    if parts.len() > 0:
+      return parts.last()
+    else:
+      return "Unknown"
+
+  @staticmethod
+  fn get_app_path() raises -> String:
+    let full_app_name = sysutils.get_full_app_name()
+    let parts = su.split(full_app_name, "/")
+    if parts.len() > 0:
+      return parts.all_but_last_n(1).join("/", True)
+    else:
+      return "Unknown"
+
+  @staticmethod 
+  fn get_args() -> StringList:
+    var result: StringList = StringList()
+    let args = sys.argv()
+    if args.__len__() > 0:
+      for i in range(0, args.__len__()):
+        result += args[i]
+    return result
+
+  @staticmethod
+  fn get_params() raises -> StringList:
+    let args = Self.get_args()
+    if args.len() > 1:
+      return args.all_but_first_n(1)
+    return args

@@ -18,7 +18,7 @@
       "request": "launch",
       "name": "Mojo: Debug current file",
       "mojoFile": "${file}",
-      "args": [],
+      "args": ["Diffusion.bwpreset"],
       "env": [],
       "cwd": "${workspaceFolder}"
     },
