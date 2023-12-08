@@ -23,13 +23,17 @@ struct sysutils:
       return "Unknown"
 
   @staticmethod
-  fn get_app_path() raises -> String:
+  fn get_app_path(ensure_final_sep: Bool) raises -> String:
     let full_app_name = sysutils.get_full_app_name()
     let parts = su.split(full_app_name, "/")
     if parts.len() > 0:
-      return parts.all_but_last_n(1).join("/", True)
+      return parts.all_but_last_n(1).join("/", ensure_final_sep)
     else:
       return "Unknown"
+
+  @staticmethod
+  fn get_app_path() raises -> String:
+    return sysutils.get_app_path(True)
 
   @staticmethod 
   fn get_args() -> StringList:
@@ -46,3 +50,12 @@ struct sysutils:
     if args.len() > 1:
       return args.all_but_first_n(1)
     return args
+
+  @staticmethod
+  fn get_param(index: Int) raises -> String:
+    let args = Self.get_args()
+    if args.len() > index:
+      return args[index]
+    return ""
+
+  
