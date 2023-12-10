@@ -91,14 +91,12 @@ struct StringList(Stringable):
   fn first(self) raises -> String:
     if self.__len__() > 0:
       return self.__getitem__(0)
-    else:
-      return ""
+    return ""
 
   fn last(self) raises -> String:
     if self.__len__() > 0:
       return self.__getitem__(self.__len__() - 1)
-    else:
-      return ""
+    return ""
 
   fn last_n(self, n: Int) raises -> StringList:
     if self.__len__() > 0:
@@ -106,8 +104,7 @@ struct StringList(Stringable):
       for i in range(self.len() - n, self.len()):
         result.append(self.__getitem__(i))
       return result
-    else:
-      return StringList()
+    return StringList()
 
   fn first_n(self, n: Int) raises -> StringList:
     if self.__len__() > 0:
@@ -115,19 +112,16 @@ struct StringList(Stringable):
       for i in range(0, n):
         result.append(self.__getitem__(i))
       return result
-    else:
-      return StringList()
+    return StringList()
 
   fn all_but_last_n(self, n: Int) raises -> StringList:
     if self.__len__() > 0:
       var result: StringList = StringList()
       for i in range(0, self.len() - n):
         result.append(self.__getitem__(i))
-      print_no_newline("all_but_last_n")
       print(result)  
       return result
-    else:
-      return StringList()
+    return StringList()
 
   fn all_but_first_n(self, n: Int) raises -> StringList:
     if self.__len__() > 0:
@@ -135,8 +129,7 @@ struct StringList(Stringable):
       for i in range(n, self.len()):
         result.append(self.__getitem__(i))
       return result
-    else:
-      return StringList()
+    return StringList()
 
   fn join(self, sep: String) raises -> String:
     return self.join(sep, False)
