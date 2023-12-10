@@ -2,6 +2,7 @@ from tensor import Tensor, TensorSpec, TensorShape
 from ca_lib.stringlist import StringList
 from builtin.io import _printf as printf
 from ca_lib.sys_utils import sysutils 
+from math.bit import ctlz
 
 @value
 struct ReadResult(StringableRaising):
@@ -23,7 +24,7 @@ struct Parser:
 
   fn process_preset(borrowed self, file_name: String, debug: Bool) raises:
     print("Processing preset: " + file_name)
-    var pos = 0x36
+    var pos: Int = 0x36
 
     var f = open(file_name, "rb")
     while True:
@@ -62,7 +63,7 @@ struct Parser:
     print()
     return ReadResult(pos2, size, DynamicVector[UInt8]())
 
-  fn print_output(self, pos: Int, size: Int, data: DynamicVector[UInt8]) raises:
+  fn print_output(self, pos: UInt32, size: UInt32, data: DynamicVector[UInt8]) raises:
     printf("pos: %d  size: %d  data: ")
     for i in range(0, data.__len__()):
       printf("%02x ", data[i])
@@ -78,11 +79,11 @@ struct Parser:
   fn get_skip_size_debug(borrowed self, f: FileHandle, pos: Int) raises:
     let bytes = self.read_from_file(f, pos, 32, True).data
     for b in range(0, bytes.__len__()):
-      printf("%02x ", b)
+      printf("%02x ", bytes[b])
     print()
     for b in range(0, bytes.__len__()):
-      if b >= 0x41:
-        printf(".%c.", b)
+      if bytes[b] >= 0x41:
+        printf(".%c.", bytes[b])
       else:
         printf("   ")
     print()
@@ -100,7 +101,13 @@ struct Parser:
   
   fn read_int_chunk(self, f: FileHandle, pos: Int) raises -> ReadResult:
     let new_read = self.read_from_file(f, pos, 4, True)
-    return ReadResult(new_read.pos, 0, new_read.data)
+    let size_le = new_read.size 
+    var size: Int = 0
+    size += (size_le & 0x000000FF) << 24;
+    size += (size_le & 0xFF000000) >> 24;
+    size += (size_le & 0x0000FF00) << 8;
+    size += (size_le & 0x00FF0000) >> 8;
+    return ReadResult(new_read.pos, size, DynamicVector[UInt8]())
 
   fn read_from_file(self, f: FileHandle, pos: Int, size: Int, advance: Bool) raises -> ReadResult:
     var data = DynamicVector[UInt8]()
