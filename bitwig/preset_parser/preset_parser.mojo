@@ -2,7 +2,7 @@ from tensor import Tensor, TensorSpec, TensorShape
 from ca_lib.stringlist import StringList
 from builtin.io import _printf as printf
 from ca_lib.sys_utils import sysutils 
-from math.bit import ctlz
+from math.bit import bswap
 
 @value
 struct ReadResult(StringableRaising):
@@ -35,7 +35,9 @@ struct Parser:
     f.close()
 
   fn read_key_and_value(borrowed self, f: FileHandle, pos: Int, debug: Bool) raises -> ReadResult:
+    print("pos: " + str(pos))
     var pos2 = pos
+    print("pos2: " + str(pos2))
     var skips = self.get_skip_size(f, pos2)
     if debug:
       self.get_skip_size_debug(f, pos2)
@@ -47,6 +49,8 @@ struct Parser:
     var size = result.size
     var data = result.data
     if size == 0: return ReadResult(0, 0, DynamicVector[UInt8]())
+    printf("  pos: %02x\n", pos2)
+    printf(" size: %02x\n", size)
     self.print_output(pos2, size, data)
 
     skips = self.get_skip_size(f, pos2)
@@ -63,11 +67,20 @@ struct Parser:
     print()
     return ReadResult(pos2, size, DynamicVector[UInt8]())
 
-  fn print_output(self, pos: UInt32, size: UInt32, data: DynamicVector[UInt8]) raises:
-    printf("pos: %d  size: %d  data: ")
-    for i in range(0, data.__len__()):
-      printf("%02x ", data[i])
+  fn print_output(self, pos: Int, size: Int, data: DynamicVector[UInt8]) raises:
+    printf("  pos: %02x\n", pos) 
+    printf(" size: %02x\n", size)
+    print_no_newline(" data: ")
+    print(self.vec_to_string(data))
     print()  
+
+  fn vec_to_string(self, data: DynamicVector[UInt8]) raises -> String:
+    var result = String()
+    for i in range(0, len(data)):
+      if data[i] == 0x00:
+        break
+      result += chr(data[i].to_int())
+    return result
 
   fn get_skip_size(borrowed self, f: FileHandle, pos: Int) raises -> Int:
     let bytes = self.read_from_file(f, pos, 32, True).data
@@ -101,13 +114,15 @@ struct Parser:
   
   fn read_int_chunk(self, f: FileHandle, pos: Int) raises -> ReadResult:
     let new_read = self.read_from_file(f, pos, 4, True)
-    let size_le = new_read.size 
-    var size: Int = 0
-    size += (size_le & 0x000000FF) << 24;
-    size += (size_le & 0xFF000000) >> 24;
-    size += (size_le & 0x0000FF00) << 8;
-    size += (size_le & 0x00FF0000) >> 8;
-    return ReadResult(new_read.pos, size, DynamicVector[UInt8]())
+    # let size_le = new_read.size 
+    # let size: Int32 = bswap[DType.int32, 1](size_le) 
+    # var size: Int = 0
+    # size += (size_le & 0x000000FF) << 24;
+    # size += (size_le & 0xFF000000) >> 24;
+    # size += (size_le & 0x0000FF00) << 8;
+    # size += (size_le & 0x00FF0000) >> 8;
+    # return ReadResult(new_read.pos, size.to_int(), DynamicVector[UInt8]())
+    return ReadResult(new_read.pos, new_read.size, DynamicVector[UInt8]())
 
   fn read_from_file(self, f: FileHandle, pos: Int, size: Int, advance: Bool) raises -> ReadResult:
     var data = DynamicVector[UInt8]()
