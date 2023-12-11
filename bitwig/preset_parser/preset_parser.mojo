@@ -35,9 +35,8 @@ struct Parser:
     f.close()
 
   fn read_key_and_value(borrowed self, f: FileHandle, pos: Int, debug: Bool) raises -> ReadResult:
-    print("pos: " + str(pos))
     var pos2 = pos
-    print("pos2: " + str(pos2))
+    printf("  pos2: %02x - %d\n", pos2, pos2) 
     var skips = self.get_skip_size(f, pos2)
     if debug:
       self.get_skip_size_debug(f, pos2)
@@ -46,12 +45,10 @@ struct Parser:
 
     var result = self.read_next_size_and_chunk(f, pos2)
     pos2 = result.pos
-    var size = result.size
-    var data = result.data
+    let size = result.size
+    let data = result.data
     if size == 0: return ReadResult(0, 0, DynamicVector[UInt8]())
-    printf("  pos: %02x\n", pos2)
-    printf(" size: %02x\n", size)
-    self.print_output(pos2, size, data)
+    self.print_output("read_key_and_value - 1", pos2, size, data)
 
     skips = self.get_skip_size(f, pos2)
     if debug:
@@ -60,16 +57,17 @@ struct Parser:
     pos2 += skips
 
     result = self.read_next_size_and_chunk(f, pos2)
-    pos2 = result.pos
-    size = result.size
-    data = result.data
-    self.print_output(pos2, size, data)
+    self.print_result("read_key_and_value - 2", result)
     print()
-    return ReadResult(pos2, size, DynamicVector[UInt8]())
+    return ReadResult(result.pos, result.size, DynamicVector[UInt8]())
 
-  fn print_output(self, pos: Int, size: Int, data: DynamicVector[UInt8]) raises:
-    printf("  pos: %02x\n", pos) 
-    printf(" size: %02x\n", size)
+  fn print_result(self, name: String, result: ReadResult) raises:
+    self.print_output(name, result.pos, result.size, result.data)
+
+  fn print_output(self, name: String, pos: Int, size: Int, data: DynamicVector[UInt8]) raises:
+    printf(" name: %s\n", name) 
+    printf("  pos: %02x - %d\n", pos, pos) 
+    printf(" size: %02x - %d\n", size, size)
     print_no_newline(" data: ")
     print(self.vec_to_string(data))
     print()  
@@ -95,7 +93,7 @@ struct Parser:
       printf("%02x ", bytes[b])
     print()
     for b in range(0, bytes.__len__()):
-      if bytes[b] >= 0x41:
+      if bytes[b] >= 0x31:
         printf(".%c.", bytes[b])
       else:
         printf("   ")
@@ -110,19 +108,22 @@ struct Parser:
     let int_chunk = self.read_int_chunk(f, pos);
     if (int_chunk.size == 0):
       return ReadResult(pos, 0, DynamicVector[UInt8]())
-    return self.read_from_file(f, int_chunk.pos, int_chunk.size, True);
+    self.print_result("read_next_size_and_chunk - size", int_chunk)
+    let chunk = self.read_from_file(f, int_chunk.pos, int_chunk.size, True)
+    self.print_result("read_next_size_and_chunk - chunk", int_chunk)
+    return chunk
   
   fn read_int_chunk(self, f: FileHandle, pos: Int) raises -> ReadResult:
     let new_read = self.read_from_file(f, pos, 4, True)
-    # let size_le = new_read.size 
-    # let size: Int32 = bswap[DType.int32, 1](size_le) 
-    # var size: Int = 0
-    # size += (size_le & 0x000000FF) << 24;
-    # size += (size_le & 0xFF000000) >> 24;
-    # size += (size_le & 0x0000FF00) << 8;
-    # size += (size_le & 0x00FF0000) >> 8;
-    # return ReadResult(new_read.pos, size.to_int(), DynamicVector[UInt8]())
-    return ReadResult(new_read.pos, new_read.size, DynamicVector[UInt8]())
+    # Need to convert the bytes in new_read.data to a UInt32
+    # and then swap the bytes
+    var size: UInt32 = 0
+    return ReadResult(pos, size.to_int(), DynamicVector[UInt8]())
+
+  fn print_byte_vector(self, data: DynamicVector[UInt8]) raises:
+    for i in range(0, data.__len__()):
+      printf("%02x ", data[i])
+    print()
 
   fn read_from_file(self, f: FileHandle, pos: Int, size: Int, advance: Bool) raises -> ReadResult:
     var data = DynamicVector[UInt8]()

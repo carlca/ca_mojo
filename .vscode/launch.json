@@ -8,8 +8,8 @@
       "type": "mojo-lldb",
       "request": "launch",
       "name": "Mojo: Debug binary",
-      "program": "${workspaceFolder}/<your program>",
-      "args": [],
+      "program": "/Users/carlcaulkett/Code/Mojo/bitwig/preset_parser/preset_parser",
+      "args": ["Diffusion.bwpreset"],
       "env": [],
       "cwd": "${workspaceFolder}"
     },
