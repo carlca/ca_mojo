@@ -135,7 +135,7 @@ fn main() raises:
   print("filemame: " + filename)
   print()
   let parser = Parser()
-  parser.process_preset(filename, False)
+  parser.process_preset(filename, True)
   print()
 
 
