@@ -10,8 +10,7 @@ struct sysutils:
     let args = sys.argv()
     if args.__len__() > 0:
       return args[0]
-    else:
-      return "Unknown"
+    return "Unknown"
 
   @staticmethod
   fn get_app_name() raises -> String:
@@ -19,8 +18,7 @@ struct sysutils:
     let parts = su.split(full_app_name, "/")
     if parts.len() > 0:
       return parts.last()
-    else:
-      return "Unknown"
+    return "Unknown"
 
   @staticmethod
   fn get_app_path(ensure_final_sep: Bool) raises -> String:
@@ -28,8 +26,7 @@ struct sysutils:
     let parts = su.split(full_app_name, "/")
     if parts.len() > 0:
       return parts.all_but_last_n(1).join("/", ensure_final_sep)
-    else:
-      return "Unknown"
+    return "Unknown"
 
   @staticmethod
   fn get_app_path() raises -> String:

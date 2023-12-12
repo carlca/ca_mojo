@@ -2,7 +2,7 @@ from tensor import Tensor, TensorSpec, TensorShape
 from ca_lib.stringlist import StringList
 from builtin.io import _printf as printf
 from ca_lib.sys_utils import sysutils 
-from math.bit import bswap
+# from memory.unsafe import Pointer, DTypePointer
 
 @value
 struct ReadResult(StringableRaising):
@@ -116,9 +116,12 @@ struct Parser:
   fn read_int_chunk(self, f: FileHandle, pos: Int) raises -> ReadResult:
     let new_read = self.read_from_file(f, pos, 4, True)
     # Need to convert the bytes in new_read.data to a UInt32
-    # and then swap the bytes
     var size: UInt32 = 0
-    return ReadResult(pos, size.to_int(), DynamicVector[UInt8]())
+    for i in range(0, 4):
+      size |= new_read.data[i].cast[DType.uint32]() << ((3 - i) * 8)
+    let result = ReadResult(pos, size.to_int(), DynamicVector[UInt8]())
+    self.print_result("read_int_chunk", result)
+    return result 
 
   fn print_byte_vector(self, data: DynamicVector[UInt8]) raises:
     for i in range(0, data.__len__()):
