@@ -18,6 +18,7 @@ struct ReadResult(StringableRaising):
 
 @value
 struct Parser:
+  
   fn __init__(inout self) raises:
     pass
 
@@ -31,28 +32,27 @@ struct Parser:
       if result.size == 0: break
     f.close()
 
-  fn read_key_and_value(borrowed self, f: FileHandle, pos: Int, debug: Bool) raises -> ReadResult:
-    var pos2 = pos
-    var skips = self.get_skip_size(f, pos2)
+  fn read_key_and_value(borrowed self, f: FileHandle, inout pos: Int, debug: Bool) raises -> ReadResult:
+    var skips = self.get_skip_size(f, pos)
     if debug:
-      self.get_skip_size_debug(f, pos2)
+      self.get_skip_size_debug(f, pos)
       print(String(skips) + " skips")
-    pos2 += skips
+    pos += skips
 
-    var result = self.read_next_size_and_chunk(f, pos2)
-    pos2 = result.pos
+    var result = self.read_next_size_and_chunk(f, pos)
+    pos = result.pos
     let size = result.size
     let data = result.data
     if size == 0: return ReadResult(0, 0, DynamicVector[UInt8]())
     printf("[%s] ", self.vec_to_string(data))
 
-    skips = self.get_skip_size(f, pos2)
+    skips = self.get_skip_size(f, pos)
     if debug:
-      self.get_skip_size_debug(f, pos2)
+      self.get_skip_size_debug(f, pos)
       print(String(skips) + " skips")
-    pos2 += skips
+    pos += skips
 
-    result = self.read_next_size_and_chunk(f, pos2)
+    result = self.read_next_size_and_chunk(f, pos)
     printf("%s\n", self.vec_to_string(result.data))
     return ReadResult(result.pos, result.size, DynamicVector[UInt8]())
 
@@ -64,14 +64,14 @@ struct Parser:
       result += chr(data[i].to_int())
     return result
 
-  fn get_skip_size(borrowed self, f: FileHandle, pos: Int) raises -> Int:
+  fn get_skip_size(borrowed self, f: FileHandle, inout pos: Int) raises -> Int:
     let bytes = self.read_from_file(f, pos, 32, True).data
     for i in range(0, bytes.__len__()):
       if bytes[i] >= 0x20 and (i == 5 or i == 8 or i == 13):
         return i - 4
     return 1
 
-  fn get_skip_size_debug(borrowed self, f: FileHandle, pos: Int) raises:
+  fn get_skip_size_debug(borrowed self, f: FileHandle, inout pos: Int) raises:
     let bytes = self.read_from_file(f, pos, 32, True).data
     for b in range(0, bytes.__len__()):
       printf("%02x ", bytes[b])
@@ -88,21 +88,21 @@ struct Parser:
     alias hex_table: String = "0123456789abcdef"
     return "0x" + hex_table[(x >> 4).to_int()] + hex_table[(x & 0xF).to_int()]
 
-  fn read_next_size_and_chunk(self, f: FileHandle, pos: Int) raises -> ReadResult:
+  fn read_next_size_and_chunk(self, f: FileHandle, inout pos: Int) raises -> ReadResult:
     let int_chunk = self.read_int_chunk(f, pos);
     if (int_chunk.size == 0):
       return ReadResult(pos, 0, DynamicVector[UInt8]())
     return self.read_from_file(f, int_chunk.pos, int_chunk.size, True)
   
-  fn read_int_chunk(self, f: FileHandle, pos: Int) raises -> ReadResult:
+  fn read_int_chunk(self, f: FileHandle, inout pos: Int) raises -> ReadResult:
     let new_read = self.read_from_file(f, pos, 4, True)
     if new_read.data.size == 0:
       return ReadResult(0, 0, DynamicVector[UInt8]())
-    let pos2 = new_read.pos
+    pos = new_read.pos
     var size: UInt32 = 0
     for i in range(0, 4):
       size |= new_read.data[i].cast[DType.uint32]() << ((3 - i) * 8)
-    return ReadResult(pos2, size.to_int(), DynamicVector[UInt8]())
+    return ReadResult(pos, size.to_int(), DynamicVector[UInt8]())
 
   fn print_byte_vector(self, data: DynamicVector[UInt8]) raises:
     for i in range(0, data.__len__()):
@@ -111,9 +111,8 @@ struct Parser:
 
   fn read_from_file(self, f: FileHandle, pos: Int, size: Int, advance: Bool) raises -> ReadResult:
     var data = DynamicVector[UInt8]()
-    var pos2 = pos
     try:
-      _ = f.seek(pos2)
+      _ = f.seek(pos)
     except:
       return ReadResult(0, 0, DynamicVector[UInt8]())
     # f.read_bytes forces the use of a SIMD[si64, 1] for `size`
@@ -122,9 +121,10 @@ struct Parser:
     let t_ui8: Tensor[DType.uint8] = t_si8.astype[DType.uint8]()
     for i in range(0, t_ui8.num_elements()):
       data.push_back(t_ui8[i]) 
+    var increment = 0
     if advance: 
-      pos2 = pos2 + size
-    return ReadResult(pos2, size, data)
+      increment = size
+    return ReadResult(pos + increment, size, data)
 
 fn main() raises:
   let args = sysutils.get_params()
@@ -135,7 +135,7 @@ fn main() raises:
   print("filemame: " + filename)
   print()
   let parser = Parser()
-  parser.process_preset(filename, True)
+  parser.process_preset(filename, False)
   print()
 
 
