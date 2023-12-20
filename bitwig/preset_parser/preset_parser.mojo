@@ -2,6 +2,7 @@ from tensor import Tensor, TensorSpec, TensorShape
 from ca_lib.stringlist import StringList
 from builtin.io import _printf as printf
 from ca_lib.sys_utils import sysutils 
+from math.bit import bswap
 
 @value
 struct ReadResult(StringableRaising):
@@ -102,6 +103,9 @@ struct Parser:
     var size: UInt32 = 0
     for i in range(0, 4):
       size |= new_read.data[i].cast[DType.uint32]() << ((3 - i) * 8)
+    # let ui32_ptr = Pointer[UInt8](new_read.data.data.value).bitcast[UInt32]()
+    # let size = ui32_ptr[0]
+    # _ = new_read.data
     return ReadResult(pos, size.to_int(), DynamicVector[UInt8]())
 
   fn print_byte_vector(self, data: DynamicVector[UInt8]) raises:

@@ -1,4 +1,4 @@
-# ca_lib_base
+# ca_mojo
 A simple library writen in pure Mojo, the new faster, compiled, and stricter superset of Python,
 by [Modular](https://modular.com)🔥
 
