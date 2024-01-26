@@ -1,15 +1,19 @@
-from utils.vector import _OldDynamicVector
+from collections.vector import DynamicVector
 
-alias DynamicVector = _OldDynamicVector
-alias TestFn = fn() raises -> Bool 
+alias TestFn = fn () raises -> Bool
 
-var tests: DynamicVector[TestFn] = DynamicVector[TestFn]()
+@value
+@register_passable
+struct CollectionElementWrapper[T: AnyRegType](CollectionElement):
+    var wrappee: T
+
+alias TestFnPtrWrapper = CollectionElementWrapper[Pointer[TestFn]]
 
 struct TeeTest:
-  var tests: DynamicVector[Pointer[TestFn]]
+  var tests: DynamicVector[TestFnPtrWrapper]
 
   fn __init__(inout self):
-    self.tests = DynamicVector[Pointer[TestFn]]()
+    self.tests = DynamicVector[TestFnPtrWrapper]()
 
   fn count(self) -> Int:
     return self.tests.__len__()
@@ -27,12 +31,12 @@ struct TeeTest:
     var succ_count = 0
     try:
       for i in range(self.tests.__len__()):
-        let test_fn = self.tests[i].load()
+        let test_fn = self.tests[i].wrappee.load()  # THAT's what you do with "wrappee" ;)
         if not test_fn():
           print("test:", i + 1, "failed!")
           fail_count += 1
         else:
-          succ_count += 1	
+          succ_count += 1
           if not fails_only:
             print("test:", i + 1, "passed!")
       print("--------------------------------------------")
