@@ -1,6 +1,7 @@
 from collections.vector import DynamicVector
+from builtin.io import _printf as printf
 
-alias TestFn = fn () raises -> Bool
+alias TestFn = fn() raises -> (Bool, StringLiteral)
 
 @value
 @register_passable
@@ -32,13 +33,16 @@ struct TeeTest:
     try:
       for i in range(self.tests.__len__()):
         var test_fn = self.tests[i].wrappee.load()  # THAT's what you do with "wrappee" ;)
-        if not test_fn():
-          print("test:", i + 1, "failed!")
+        var function_name: StringLiteral
+        var succeeded: Bool
+        (succeeded, function_name) = test_fn()
+        if not succeeded:
+          printf("Test %d, \"%s\": failed!\n", i + 1, function_name)
           fail_count += 1
         else:
           succ_count += 1
           if not fails_only:
-            print("test:", i + 1, "passed!")
+            printf("Test %d, \"%s\": passed!\n", i + 1, function_name)
       print("--------------------------------------------")
       print(" Total number of tests run: ", fail_count + succ_count)
       print("    Number of tests passed: ", succ_count)
