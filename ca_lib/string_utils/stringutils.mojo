@@ -14,14 +14,14 @@ struct su:
   fn rjust(input_string: String, width: Int, fillchar: String = " ") raises -> String:
     if len(fillchar) != 1:
       raise Error(" The fill character must be exactly one character long")
-    let extra = width - len(input_string)
+    var extra = width - len(input_string)
     return su.__string__mul__(fillchar, extra) + input_string
 
   @staticmethod
   fn ljust(input_string: String, width: Int, fillchar: String = " ") raises -> String:
     if len(fillchar) != 1:
       raise Error(" The fill character must be exactly one character long")
-    let extra = width - len(input_string)
+    var extra = width - len(input_string)
     return input_string + su.__string__mul__(fillchar, extra)
 
   @staticmethod
@@ -50,8 +50,8 @@ struct su:
 
   @staticmethod
   fn find(s: String, sub: String, start: Int) -> Int:
-    let len = s.__len__()
-    let sub_len = sub.__len__()
+    var len = s.__len__()
+    var sub_len = sub.__len__()
     for i in range(start, len - sub_len + 1):
       var is_match = True
       for j in range(sub_len):
@@ -114,7 +114,7 @@ struct su:
 
   @staticmethod
   fn substr(s: String, start: Int) -> String:
-    let length = len(s) - start
+    var length = len(s) - start
     return s[start:start+length]
 
   @staticmethod

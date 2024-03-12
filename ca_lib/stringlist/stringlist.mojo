@@ -16,7 +16,7 @@ struct StringListIter:
     return self.data[self.idx]
 
 @value
-struct StringList(Stringable):
+struct StringList(Stringable, Sized):
   """This does not have the same behavior as python at all regarding references.
   But it helps us code things without having real lists available, and it's memory efficient.
   Replace with the list provided by mojo ASAP.
@@ -51,14 +51,14 @@ struct StringList(Stringable):
   fn __getitem__(self, index: Int) raises -> String:
     if index >= len(self._end_of_strings):
       raise Error("list index out of range")
-    let start: Int
+    var start: Int
     if index == 0:
       start = 0
     else:
       start = self._end_of_strings[index - 1]
     return self._internal_string[start : self._end_of_strings[index]]
 
-  fn __getitem__(self: Self, limits: slice) raises -> Self:
+  fn __getitem__(self: Self, limits: Slice) raises -> Self:
     var new_list: Self = Self()
     for i in range(limits.start, limits.end, limits.step):
       new_list.append(self.__getitem__(i))
@@ -66,6 +66,16 @@ struct StringList(Stringable):
 
   fn __len__(self) -> Int:
     return len(self._end_of_strings)
+
+  fn __eq__(self: Self, other: Self) raises -> Bool:
+    if self.len() == 0 and other.len() == 0:
+      return True
+    if self.len() != other.len():
+      return False
+    for i in range(self.len()):
+      if self[i] != other[i]:
+        return False
+    return True
 
   fn size(self) -> Int:
     return self.__len__()
@@ -136,7 +146,7 @@ struct StringList(Stringable):
 
   fn join(self, sep: String, ensure_final_sep: Bool) raises -> String:
     var result: String = ""
-    let final_offset: Int  
+    var final_offset: Int  
     if ensure_final_sep:
       final_offset = 0
     else:

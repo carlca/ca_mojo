@@ -19,7 +19,7 @@ struct TeeTest:
     return self.tests.__len__()
 
   fn add_test(inout self, func: TestFn) -> None:
-    let ptr = Pointer[TestFn].alloc(1)
+    var ptr = Pointer[TestFn].alloc(1)
     ptr.store(func)
     self.tests.push_back(ptr)
 
@@ -31,7 +31,7 @@ struct TeeTest:
     var succ_count = 0
     try:
       for i in range(self.tests.__len__()):
-        let test_fn = self.tests[i].wrappee.load()  # THAT's what you do with "wrappee" ;)
+        var test_fn = self.tests[i].wrappee.load()  # THAT's what you do with "wrappee" ;)
         if not test_fn():
           print("test:", i + 1, "failed!")
           fail_count += 1

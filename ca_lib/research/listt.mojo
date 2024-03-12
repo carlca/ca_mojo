@@ -30,7 +30,7 @@ struct List[T: AnyType]:
   fn __getitem__(self, index: Int) raises -> String:
     if index >= len(self._end_of_strings):
       raise Error("list index out of range")
-    let start: Int
+    var start: Int
     if index == 0:
       start = 0
     else:

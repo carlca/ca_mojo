@@ -42,13 +42,13 @@ Only tests for `fn split(s: String, sep: String) -> List:` at the moment.
 ###  Matrix 
 A struct which represents a simple 2 dimensional matrix capable of storing Float64 numbers. 
 
-Contains many functions a lot of which have not even been tested casually, let alone by formal unit tests. Proceed with caution!
+Contains many functions a lot of which have not even been tested casually, var alone by formal unit tests. Proceed with caution!
 
 ### test_matrix.mojo
 Only tests for initialising from string...
-- ```let m1 = Matrix("[[1.1, 1.1, 1.1], [2.2, 2.2, 2.2], [3.3, 3.3, 3.3], [4.4, 4.4, 4.4]]")```
+- ```var m1 = Matrix("[[1.1, 1.1, 1.1], [2.2, 2.2, 2.2], [3.3, 3.3, 3.3], [4.4, 4.4, 4.4]]")```
 and for adding...
-- ```let m3 = m1 + m2```
+- ```var m3 = m1 + m2```
 and for converting back to string...
 - ```return m3.string_to(1) == "[[2.2, 2.2, 2.2], [3.3, 3.3, 3.3], [4.4, 4.4, 4.4], [5.5, 5.5, 5.5]]"```
 
@@ -64,11 +64,11 @@ fn add_tests():
   tests.add_test(test_str_to_float_to_rounded_string)
 
 fn test_str_to_float_to_rounded_string() raises -> Bool:
-    let pi_str = "3.1415926234534563"
-    let pi = fu.str_to_float(pi_str)
-    let assert1 = fu.format_float(pi, 5) == "3.14159"
-    let assert2 = fu.format_float(pi, 6) == "3.141593"
-    let assert3 = fu.format_float(pi, 7) == "3.1415926"
+    var pi_str = "3.1415926234534563"
+    var pi = fu.str_to_float(pi_str)
+    var assert1 = fu.format_float(pi, 5) == "3.14159"
+    var assert2 = fu.format_float(pi, 6) == "3.141593"
+    var assert3 = fu.format_float(pi, 7) == "3.1415926"
     return assert1 and assert2 and assert3
 
 fn main():

@@ -51,8 +51,8 @@ struct List[T: CollectionElement](Sized, Movable):
   fn pop(inout self, index: Int = -1) raises -> T:
     if index >= len(self._internal_vector):
       raise Error("list index out of range")
-    let new_index = self._normalize_index(index)
-    let element = self.unchecked_get(new_index)
+    var new_index = self._normalize_index(index)
+    var element = self.unchecked_get(new_index)
     for i in range(new_index, len(self) - 1):
       self[i] = self[i + 1]
     self._internal_vector.resize(len(self._internal_vector) - 1, element)
@@ -60,13 +60,13 @@ struct List[T: CollectionElement](Sized, Movable):
 
   fn reverse(inout self) raises:
     for i in range(len(self) // 2):
-      let mirror_i = len(self) - 1 - i
-      let tmp = self[i]
+      var mirror_i = len(self) - 1 - i
+      var tmp = self[i]
       self[i] = self[mirror_i]
       self[mirror_i] = tmp
 
   fn insert(inout self, key: Int, value: T) raises:
-    let index = self._normalize_index(key)
+    var index = self._normalize_index(key)
     if index >= len(self):
       self.append(value)
       return
@@ -81,7 +81,7 @@ struct List[T: CollectionElement](Sized, Movable):
       raise Error("list index out of range")
     return self.unchecked_get(self._normalize_index(index))
 
-  fn __getitem__(self: Self, limits: slice) raises -> Self:
+  fn __getitem__(self: Self, limits: Slice) raises -> Self:
     var new_list: Self = Self()
     for i in range(limits.start, limits.end, limits.step):
       new_list.append(self[i])

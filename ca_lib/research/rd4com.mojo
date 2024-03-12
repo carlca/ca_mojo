@@ -1,6 +1,6 @@
 fn main():
-  let x = StaticTuple[4,Int](1,2,3,4)
-  let x2 = [1, 1.9] #ListLiteral[Int,Float64]
+  var x = StaticTuple[4,Int](1,2,3,4)
+  var x2 = [1, 1.9] #ListLiteral[Int,Float64]
 
   #StaticTuple can use dynamic values as index
   for i in range(4):

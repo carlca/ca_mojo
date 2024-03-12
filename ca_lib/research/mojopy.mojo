@@ -7,10 +7,10 @@ import string_utils as su
 import float_utils as fu
 
 fn main() raises:
-  let s1: String = "[[1.1, 1.1, 1.1], [2.2, 2.2, 2.2], [3.3, 3.3, 3.3], [4.4, 4.4, 4.4]]"
-  let mm = Matrix(s1)
+  var s1: String = "[[1.1, 1.1, 1.1], [2.2, 2.2, 2.2], [3.3, 3.3, 3.3], [4.4, 4.4, 4.4]]"
+  var mm = Matrix(s1)
   print("mm.print()")
-  let s2: String = mm.string_to(1)
+  var s2: String = mm.string_to(1)
   if s1 == s2:
     print("s1 = s2!")
   
@@ -31,7 +31,7 @@ fn main() raises:
   print("")
 
   print("split_to_strings")
-  let sps = su.split_to_strings(s1, '], [')
+  var sps = su.split_to_strings(s1, '], [')
   print (sps)
 
   print("")
@@ -57,7 +57,7 @@ fn main() raises:
   print ("It works!\n")
 
   print("Parsing each row:")
-  let first = spl[0]
+  var first = spl[0]
   print(first)
   print(su.count_char(first, ','))
   print("")

@@ -28,6 +28,7 @@ fn testList_iter() raises -> Bool:
   l += 5
   l += 6   
   var s = String("")
+
   for i in l:
     s += i
   return s == "123456"

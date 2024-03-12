@@ -28,7 +28,7 @@ struct Parser:
 
     var f = open(file_name, "r")
     while True:
-      let result = self.read_key_and_value(f, pos, debug)
+      var result = self.read_key_and_value(f, pos, debug)
       pos = result.pos
       if result.size == 0: break
     f.close()
@@ -42,8 +42,8 @@ struct Parser:
 
     var result = self.read_next_size_and_chunk(f, pos)
     pos = result.pos
-    let size = result.size
-    let data = result.data
+    var size = result.size
+    var data = result.data
     if size == 0: return ReadResult(0, 0, DynamicVector[UInt8]())
     printf("[%s] ", self.vec_to_string(data))
 
@@ -66,14 +66,14 @@ struct Parser:
     return result
 
   fn get_skip_size(borrowed self, f: FileHandle, inout pos: Int) raises -> Int:
-    let bytes = self.read_from_file(f, pos, 32, True).data
+    var bytes = self.read_from_file(f, pos, 32, True).data
     for i in range(0, bytes.__len__()):
       if bytes[i] >= 0x20 and (i == 5 or i == 8 or i == 13):
         return i - 4
     return 1
 
   fn get_skip_size_debug(borrowed self, f: FileHandle, inout pos: Int) raises:
-    let bytes = self.read_from_file(f, pos, 32, True).data
+    var bytes = self.read_from_file(f, pos, 32, True).data
     for b in range(0, bytes.__len__()):
       printf("%02x ", bytes[b])
     print()
@@ -90,21 +90,21 @@ struct Parser:
     return "0x" + hex_table[(x >> 4).to_int()] + hex_table[(x & 0xF).to_int()]
 
   fn read_next_size_and_chunk(self, f: FileHandle, inout pos: Int) raises -> ReadResult:
-    let int_chunk = self.read_int_chunk(f, pos);
+    var int_chunk = self.read_int_chunk(f, pos);
     if (int_chunk.size == 0):
       return ReadResult(pos, 0, DynamicVector[UInt8]())
     return self.read_from_file(f, int_chunk.pos, int_chunk.size, True)
   
   fn read_int_chunk(self, f: FileHandle, inout pos: Int) raises -> ReadResult:
-    let new_read = self.read_from_file(f, pos, 4, True)
+    var new_read = self.read_from_file(f, pos, 4, True)
     if new_read.data.size == 0:
       return ReadResult(0, 0, DynamicVector[UInt8]())
     pos = new_read.pos
     var size: UInt32 = 0
     for i in range(0, 4):
       size |= new_read.data[i].cast[DType.uint32]() << ((3 - i) * 8)
-    # let ui32_ptr = Pointer[UInt8](new_read.data.data.value).bitcast[UInt32]()
-    # let size = ui32_ptr[0]
+    # var ui32_ptr = Pointer[UInt8](new_read.data.data.value).bitcast[UInt32]()
+    # var size = ui32_ptr[0]
     # _ = new_read.data
     return ReadResult(pos, size.to_int(), DynamicVector[UInt8]())
 
@@ -121,8 +121,8 @@ struct Parser:
       return ReadResult(0, 0, DynamicVector[UInt8]())
     # f.read_bytes forces the use of a SIMD[si64, 1] for `size`
     # and a Tensor[DType.int8] for the return type!
-    let t_si8: Tensor[DType.int8] = f.read_bytes(size)
-    let t_ui8: Tensor[DType.uint8] = t_si8.astype[DType.uint8]()
+    var t_si8: Tensor[DType.int8] = f.read_bytes(size)
+    var t_ui8: Tensor[DType.uint8] = t_si8.astype[DType.uint8]()
     for i in range(0, t_ui8.num_elements()):
       data.push_back(t_ui8[i]) 
     var increment = 0
@@ -131,14 +131,14 @@ struct Parser:
     return ReadResult(pos + increment, size, data)
 
 fn main() raises:
-  let args = sysutils.get_params()
+  var args = sysutils.get_params()
   if args.len() == 0:
     print("Usage: mojo preset_parser <preset file>")
     return
-  let filename = sysutils.get_app_path() + args[0]
+  var filename = sysutils.get_app_path() + args[0]
   print("filemame: " + filename)
   print()
-  let parser = Parser()
+  var parser = Parser()
   parser.process_preset(filename, False)
   print()
 

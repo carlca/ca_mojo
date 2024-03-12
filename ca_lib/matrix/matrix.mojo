@@ -32,9 +32,9 @@ struct Matrix:
     s = su.remove_char(s, " ")
     s = su.trim(s, "[", "]")
     s = su.trim(s, "'", "'")
-    let rows = su.split(s, "],[")
+    var rows = su.split(s, "],[")
     var this_count = 0
-    let last_count = 0
+    var last_count = 0
     # Check if all rows in `content` have the same number of columns 
     try:
       for row in rows:
@@ -49,9 +49,9 @@ struct Matrix:
           self.data = Pointer[Float64].alloc(self.total_items)
           var i = 0
           for row in rows:
-            let cols = su.split(row, ",")
+            var cols = su.split(row, ",")
             for col in cols:
-              let f = fu.str_to_float(col)
+              var f = fu.str_to_float(col)
               self.data.store(i, f)
               i += 1
     except:
@@ -66,14 +66,14 @@ struct Matrix:
       print(msg, value)
 
   fn __getitem__(borrowed self, row: Int, col: Int) -> Float64:
-    let index = row * self.cols + col
+    var index = row * self.cols + col
     if index < 0 or index >= self.total_items:
       print("Error: Index out of bounds")
       return 0.0
     return self.data.load(index)
 
   fn __setitem__(inout self, row: Int, col: Int, value: Float64) -> None:
-    let index = row * self.cols + col
+    var index = row * self.cols + col
     if index < 0 or index >= self.total_items:
       print("Error: Index out of bounds")
       return
@@ -144,7 +144,7 @@ struct Matrix:
     if self.rows != other.rows or self.cols != other.cols:
       print("Error: Matrix dimensions must match")
       return Matrix(1, 1)
-    let result = Matrix(self.rows, self.cols)
+    var result = Matrix(self.rows, self.cols)
     for i in range(self.rows):
       for j in range(self.cols):
         result[i, j] = self[i, j] / other[i, j]
@@ -171,7 +171,7 @@ struct Matrix:
     self = self - other
 
   fn __mul__ (borrowed self, other: Float64) -> Matrix:
-    let result = Matrix(self.rows, self.cols)
+    var result = Matrix(self.rows, self.cols)
     for i in range(self.rows):
       for j in range(self.cols):
         result[i, j] = self[i, j] * other
