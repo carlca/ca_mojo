@@ -1,0 +1,32 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "mojo-lldb",
+      "request": "launch",
+      "name": "Mojo: Debug binary",
+      "program": "/Users/carlcaulkett/Code/Mojo/bitwig/preset_parser/preset_parser",
+      "args": ["Diffusion.bwpreset"],
+      "env": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "mojo-lldb",
+      "request": "launch",
+      "name": "Mojo: Debug current file",
+      "mojoFile": "${file}",
+      "args": ["Diffusion.bwpreset"],
+      "env": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "mojo-lldb",
+      "request": "attach",
+      "name": "Mojo: Attach to binary",
+      "pid": "<pid>"
+    }
+  ]
+}
