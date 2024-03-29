@@ -1,5 +1,4 @@
 from tensor import Tensor, TensorSpec, TensorShape
-from ca_lib.stringlist import StringList
 from builtin.io import _printf as printf
 from ca_lib.sys_utils import sysutils 
 from math.bit import bswap
@@ -8,7 +7,7 @@ from math.bit import bswap
 struct ReadResult(StringableRaising):
   var pos: Int
   var size: Int
-  var data: DynamicVector[UInt8]
+  var data: List[UInt8]
 
   fn __str__(self) raises -> String:
     var result = "pos: " + String(self.pos) + " size: " + String(self.size) + " data: [" 
@@ -44,7 +43,7 @@ struct Parser:
     pos = result.pos
     var size = result.size
     var data = result.data
-    if size == 0: return ReadResult(0, 0, DynamicVector[UInt8]())
+    if size == 0: return ReadResult(0, 0, List[UInt8]())
     printf("[%s] ", self.vec_to_string(data))
 
     skips = self.get_skip_size(f, pos)
@@ -55,9 +54,9 @@ struct Parser:
 
     result = self.read_next_size_and_chunk(f, pos)
     printf("%s\n", self.vec_to_string(result.data))
-    return ReadResult(result.pos, result.size, DynamicVector[UInt8]())
+    return ReadResult(result.pos, result.size, List[UInt8]())
 
-  fn vec_to_string(self, data: DynamicVector[UInt8]) raises -> String:
+  fn vec_to_string(self, data: List[UInt8]) raises -> String:
     var result = String()
     for i in range(0, len(data)):
       if data[i] == 0x00:
@@ -92,13 +91,13 @@ struct Parser:
   fn read_next_size_and_chunk(self, f: FileHandle, inout pos: Int) raises -> ReadResult:
     var int_chunk = self.read_int_chunk(f, pos);
     if (int_chunk.size == 0):
-      return ReadResult(pos, 0, DynamicVector[UInt8]())
+      return ReadResult(pos, 0, List[UInt8]())
     return self.read_from_file(f, int_chunk.pos, int_chunk.size, True)
   
   fn read_int_chunk(self, f: FileHandle, inout pos: Int) raises -> ReadResult:
     var new_read = self.read_from_file(f, pos, 4, True)
     if new_read.data.size == 0:
-      return ReadResult(0, 0, DynamicVector[UInt8]())
+      return ReadResult(0, 0, List[UInt8]())
     pos = new_read.pos
     var size: UInt32 = 0
     for i in range(0, 4):
@@ -106,25 +105,25 @@ struct Parser:
     # var ui32_ptr = Pointer[UInt8](new_read.data.data.value).bitcast[UInt32]()
     # var size = ui32_ptr[0]
     # _ = new_read.data
-    return ReadResult(pos, size.to_int(), DynamicVector[UInt8]())
+    return ReadResult(pos, size.to_int(), List[UInt8]())
 
-  fn print_byte_vector(self, data: DynamicVector[UInt8]) raises:
+  fn print_byte_vector(self, data: List[UInt8]) raises:
     for i in range(0, data.__len__()):
       printf("%02x ", data[i])
     print()
 
   fn read_from_file(self, f: FileHandle, pos: Int, size: Int, advance: Bool) raises -> ReadResult:
-    var data = DynamicVector[UInt8]()
+    var data = List[UInt8]()
     try:
       _ = f.seek(pos)
     except:
-      return ReadResult(0, 0, DynamicVector[UInt8]())
+      return ReadResult(0, 0, List[UInt8]())
     # f.read_bytes forces the use of a SIMD[si64, 1] for `size`
     # and a Tensor[DType.int8] for the return type!
     var t_si8: Tensor[DType.int8] = f.read_bytes(size)
     var t_ui8: Tensor[DType.uint8] = t_si8.astype[DType.uint8]()
     for i in range(0, t_ui8.num_elements()):
-      data.push_back(t_ui8[i]) 
+      data.append(t_ui8[i]) 
     var increment = 0
     if advance: 
       increment = size
@@ -132,11 +131,11 @@ struct Parser:
 
 fn main() raises:
   var args = sysutils.get_params()
-  if args.len() == 0:
+  if args.size == 0:
     print("Usage: mojo preset_parser <preset file>")
     return
   var filename = sysutils.get_app_path() + args[0]
-  print("filemame: " + filename)
+  print("filename: " + filename)
   print()
   var parser = Parser()
   parser.process_preset(filename, False)

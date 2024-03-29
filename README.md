@@ -76,3 +76,18 @@ fn main():
     test_str_to_float_to_rounded_string,
   ).run_tests()
 ```
+
+## `preset_parser`
+
+found in `ca_mojo/ca_lib/preset_parser`
+
+A proof-of-concept for using Mojo for binary file reading.
+
+It parses the initial metadata found in a Bitwig `.bwpreset` file and displays it to the console.
+
+Usage: `mojo preset_parser.mojo <path-to-preset-file>`
+
+Eg: `mojo preset_parser.mojo ./Diffusion.bwpreset` 
+or: `mojo preset_parser.mojo ./Binaural_Organ_Device.bwpreset`
+
+It uses some path related functions in `c_mojo/ca_lib/sysutils`.

@@ -1,4 +1,5 @@
 {
   "editor.tabSize": 2,
-  "java.selectionRange.enabled": false
+  "java.selectionRange.enabled": false,
+  "mojo.modularHomePath": "/Users/carlcaulkett/.modular"
 }
