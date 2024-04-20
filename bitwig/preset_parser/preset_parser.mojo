@@ -102,9 +102,6 @@ struct Parser:
     var size: UInt32 = 0
     for i in range(0, 4):
       size |= new_read.data[i].cast[DType.uint32]() << ((3 - i) * 8)
-    # var ui32_ptr = Pointer[UInt8](new_read.data.data.value).bitcast[UInt32]()
-    # var size = ui32_ptr[0]
-    # _ = new_read.data
     return ReadResult(pos, size.to_int(), List[UInt8]())
 
   fn print_byte_vector(self, data: List[UInt8]) raises:

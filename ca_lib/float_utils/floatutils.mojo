@@ -37,7 +37,7 @@ struct fu:
     var mult = 10 ** (dec_places + 1)
     # note the use of an extra power of 10 to get the rounding digit
     # use the multiplier build the integer value of the input number
-    var i = Float64(f * mult).cast[DType.int64]().to_int()
+    var i = Float64(f * mult).cast[DType.int32]()
     # get the integer value as a string
     var i_str_full = String(i)
     # grab the last digit to be used to adjust/leave the previous digit

@@ -74,6 +74,7 @@ struct TeeTest:
       else:
         fail_count += 1
         print(str)
+    printf("\n")
     print("--------------------------------------------")
     print(" Total number of tests run: ", self.count())
     print("    Number of tests passed: ", succ_count)
