@@ -1,17 +1,20 @@
 from teetest import TeeTest
 from ca_lib.string_utils import su
 from collections import list 
+from builtin._location import __call_location
 
-fn test_string_split() raises -> (Bool, StringLiteral):
+@always_inline
+fn test_string_split() raises -> (Bool, String):
   var s = "a,b,c"
   var l = su.split(s, ",")
   return l[0] == "a" and l[1] == "b" and l[2] == "c",
-    __source_location().function_name
+    String(__call_location())
 
-fn test_string_split_empty() raises -> (Bool, StringLiteral):
+@always_inline
+fn test_string_split_empty() raises -> (Bool, String):
   var s = ""
   return su.split(s, ",").size == 0,
-    __source_location().function_name
+    String(__call_location())
 
 fn main():
   TeeTest(

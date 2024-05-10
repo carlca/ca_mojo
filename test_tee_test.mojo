@@ -1,4 +1,5 @@
 from teetest import TeeTest
+from builtin._location import __call_location
 
 var tests = TeeTest()
 
@@ -9,20 +10,25 @@ fn add_tests():
   tests.add_test(test4)
   tests.add_test(test_meta)
 
-fn test1() raises -> (Bool, StringLiteral):
-  return True, __source_location().function_name
+@always_inline
+fn test1() raises -> (Bool, String):
+  return True, String(__call_location())
 
-fn test2() raises -> (Bool, StringLiteral):
-  return True, __source_location().function_name
+@always_inline
+fn test2() raises -> (Bool, String):
+  return True, String(__call_location())
 
-fn test3() raises -> (Bool, StringLiteral):
-  return True, __source_location().function_name
+@always_inline
+fn test3() raises -> (Bool, String):
+  return True, String(__call_location())
 
-fn test4() raises -> (Bool, StringLiteral):
-  return True, __source_location().function_name
+@always_inline
+fn test4() raises -> (Bool, String):
+  return True, String(__call_location())
 
-fn test_meta() raises -> (Bool, StringLiteral):
-  return tests.count() == 5, __source_location().function_name
+@always_inline
+fn test_meta() raises -> (Bool, String):
+  return tests.count() == 5, String(__call_location())
 
 fn main():
   add_tests()

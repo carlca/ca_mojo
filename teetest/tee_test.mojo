@@ -1,8 +1,9 @@
 from collections import List
 from builtin.io import _printf as printf
 from utils.variant import Variant
+from builtin._location import __source_location
 
-alias TestFn = fn() raises -> Tuple[Bool, StringLiteral]
+alias TestFn = fn() raises -> Tuple[Bool, String]
 
 @value
 struct Passed(CollectionElement, Stringable):
@@ -44,14 +45,14 @@ struct TeeTest:
 
   @staticmethod
   fn _run_test(f: TestFn) -> TestResult:
-    var function_name: StringLiteral
     var succeeded: Bool
+    var source_loc: String
     try:
-      succeeded, function_name = f()
+      succeeded, source_loc = f()
     except e:
       return Raised(e)
-    return TestResult(Passed(function_name)) if succeeded
-      else TestResult(Failed(function_name))
+    return TestResult(Passed(source_loc)) if succeeded
+      else TestResult(Failed(source_loc))
 
   @staticmethod
   fn _res_to_str(self: TestResult) -> String:

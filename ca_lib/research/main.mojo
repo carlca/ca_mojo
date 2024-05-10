@@ -1,9 +1,21 @@
-from matrix import Matrix
-from testing import assert_equal 
+from builtin._location import __call_location, _SourceLocation
 
 fn main():
-  var m = Matrix(2, 3)
-  if assert_equal(m.rows, 2): print("Matrix has correct number of rows")
-  if assert_equal(m.cols, 3): print("Matrix has correct number of columns")
-  if assert_equal(m.get_data_as_string(), "[[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]"): print("Matrix has correct data")
+  test_fn()   # <== Reports this location!
+
+@always_inline("nodebug")
+fn test_fn():
+  var call_loc = __call_location()
+  print(call_loc)
+  test_print(call_loc)
+
+fn test_print(loc: String):
+  print(loc)
+
   
+# Output of test
+# 
+# [Fri May 10 2024  8:12PM (BST+0100)]  (main) [*] 🐍 v3.12.1   
+# ~/Code/Mojo/ca_mojo/ca_lib/research  mojo main.mojo
+# /Users/carlcaulkett/Code/Mojo/ca_mojo/ca_lib/research/main.mojo:4:10
+# /Users/carlcaulkett/Code/Mojo/ca_mojo/ca_lib/research/main.mojo:4:10
