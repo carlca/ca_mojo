@@ -16,7 +16,7 @@ fn test_string_split_empty() raises -> (Bool, String):
   return su.split(s, ",").size == 0,
     String(__call_location())
 
-fn main():
+fn main() raises:
   TeeTest(
     test_string_split,
     test_string_split_empty,

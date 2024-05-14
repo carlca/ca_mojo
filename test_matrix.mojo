@@ -17,7 +17,7 @@ fn test_matrix_add() raises -> (Bool, String):
   return m3.string_to(1) == "[[2.2, 2.2, 2.2], [3.3, 3.3, 3.3], [4.4, 4.4, 4.4], [5.5, 5.5, 5.5]]",
     String(__call_location())
 
-fn main():
+fn main() raises:
   TeeTest(
     test_matrix_init,
     test_matrix_add

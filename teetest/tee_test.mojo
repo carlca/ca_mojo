@@ -63,21 +63,34 @@ struct TeeTest:
     else:
       return str(self.get[Raised]()[])
 
-  fn run_tests(self, failed_only: Bool = True):
+  fn run_tests(self, failed_only: Bool = True) raises:
     var succ_count = 0
     var fail_count = 0
     for i in range(self.count()):
       var res = self._run_test(self.tests[i])
-      var str = "Test " + str(i + 1) + ", " + self._res_to_str(res)
-      if res.isa[Passed]():
-        succ_count += 1
-        if not failed_only: print(str)
-      else:
-        fail_count += 1
-        print(str)
+
+      var loc = self._res_to_str(res)
+      var file_name: String; var line: Int; var col: Int; var success: String
+      file_name, line, col, success = self.unpack_loc(loc)
+      with open(file_name, "r") as f:
+        var s = f.read()
+        var code_lines = s.split("\n")
+        var line_str = code_lines[line - 1].removesuffix(",")
+        var str = "Test " + str(i + 1) + " - " + line_str.lstrip() + ":" + success
+
+        if res.isa[Passed]():
+          succ_count += 1
+          if not failed_only: print(str)
+        else:
+          fail_count += 1
+          print(str)
     printf("\n")
     print("--------------------------------------------")
     print(" Total number of tests run: ", self.count())
     print("    Number of tests passed: ", succ_count)
     print("    Number of tests failed: ", fail_count)
     print("--------------------------------------------")
+
+  fn unpack_loc(self, loc: String) raises -> Tuple[String, Int, Int, String]:
+    var parts = loc.split(":")
+    return (parts[0][1:], parts[1].__int__(), parts[2][:-1].__int__(), parts[3])
