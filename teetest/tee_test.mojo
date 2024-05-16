@@ -57,11 +57,11 @@ struct TeeTest:
   @staticmethod
   fn _res_to_str(self: TestResult) -> String:
     if self.isa[Passed]():
-      return str(self.get[Passed]()[])
+      return str(self[Passed])
     elif self.isa[Failed]():
-      return str(self.get[Failed]()[])
+      return str(self[Failed])
     else:
-      return str(self.get[Raised]()[])
+      return str(self[Raised])
 
   fn run_tests(self, failed_only: Bool = True) raises:
     var succ_count = 0
