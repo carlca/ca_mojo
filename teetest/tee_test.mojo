@@ -76,6 +76,7 @@ struct TeeTest:
         var s = f.read()
         var code_lines = s.split("\n")
         var line_str = code_lines[line - 1].removesuffix(",")
+        if i == 0: print("")
         var str = "Test " + str(i + 1) + " - " + line_str.lstrip() + ":" + success
 
         if res.isa[Passed]():
@@ -84,13 +85,13 @@ struct TeeTest:
         else:
           fail_count += 1
           print(str)
-    printf("\n")
-    print("--------------------------------------------")
+    print("\n--------------------------------------------")
     print(" Total number of tests run: ", self.count())
     print("    Number of tests passed: ", succ_count)
     print("    Number of tests failed: ", fail_count)
     print("--------------------------------------------")
 
-  fn unpack_loc(self, loc: String) raises -> Tuple[String, Int, Int, String]:
+  @staticmethod
+  fn unpack_loc(loc: String) raises -> Tuple[String, Int, Int, String]:
     var parts = loc.split(":")
     return (parts[0][1:], parts[1].__int__(), parts[2][:-1].__int__(), parts[3])

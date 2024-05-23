@@ -1,7 +1,5 @@
 from tensor import Tensor, TensorSpec, TensorShape
 from builtin.io import _printf as printf
-from ca_lib.sys_utils import sysutils 
-from math.bit import bswap
 
 @value
 struct ReadResult(StringableRaising):
@@ -16,9 +14,8 @@ struct ReadResult(StringableRaising):
     result += "]"  
     return result
 
-@value
-struct Parser:
-  
+struct PresetParser:
+
   fn __init__(inout self) raises:
     pass
 
@@ -44,7 +41,7 @@ struct Parser:
     var size = result.size
     var data = result.data
     if size == 0: return ReadResult(0, 0, List[UInt8]())
-    printf("[%s] ", self.vec_to_string(data))
+    printf["[%s] "](self.vec_to_string(data))
 
     skips = self.get_skip_size(f, pos)
     if debug:
@@ -53,16 +50,8 @@ struct Parser:
     pos += skips
 
     result = self.read_next_size_and_chunk(f, pos)
-    printf("%s\n", self.vec_to_string(result.data))
+    printf["%s\n"](self.vec_to_string(result.data))
     return ReadResult(result.pos, result.size, List[UInt8]())
-
-  fn vec_to_string(self, data: List[UInt8]) raises -> String:
-    var result = String()
-    for i in range(0, len(data)):
-      if data[i] == 0x00:
-        break
-      result += chr(data[i].to_int())
-    return result
 
   fn get_skip_size(borrowed self, f: FileHandle, inout pos: Int) raises -> Int:
     var bytes = self.read_from_file(f, pos, 32, True).data
@@ -74,26 +63,21 @@ struct Parser:
   fn get_skip_size_debug(borrowed self, f: FileHandle, inout pos: Int) raises:
     var bytes = self.read_from_file(f, pos, 32, True).data
     for b in range(0, bytes.__len__()):
-      printf("%02x ", bytes[b])
+      printf["%02x "](bytes[b])
     print()
     for b in range(0, bytes.__len__()):
       if bytes[b] >= 0x31:
-        printf(".%c.", bytes[b])
+        printf[".%c."](bytes[b])
       else:
-        printf("   ")
+        printf["   "]()
     print()
-
-  # Borrowed from @gabrieldemarmiesse :)
-  fn hex(self, x: UInt8) -> String:
-    alias hex_table: String = "0123456789abcdef"
-    return "0x" + hex_table[(x >> 4).to_int()] + hex_table[(x & 0xF).to_int()]
 
   fn read_next_size_and_chunk(self, f: FileHandle, inout pos: Int) raises -> ReadResult:
     var int_chunk = self.read_int_chunk(f, pos);
     if (int_chunk.size == 0):
       return ReadResult(pos, 0, List[UInt8]())
     return self.read_from_file(f, int_chunk.pos, int_chunk.size, True)
-  
+    
   fn read_int_chunk(self, f: FileHandle, inout pos: Int) raises -> ReadResult:
     var new_read = self.read_from_file(f, pos, 4, True)
     if new_read.data.size == 0:
@@ -102,11 +86,11 @@ struct Parser:
     var size: UInt32 = 0
     for i in range(0, 4):
       size |= new_read.data[i].cast[DType.uint32]() << ((3 - i) * 8)
-    return ReadResult(pos, size.to_int(), List[UInt8]())
+    return ReadResult(pos, size.__int__(), List[UInt8]())
 
   fn print_byte_vector(self, data: List[UInt8]) raises:
     for i in range(0, data.__len__()):
-      printf("%02x ", data[i])
+      printf["%02x "](data[i])
     print()
 
   fn read_from_file(self, f: FileHandle, pos: Int, size: Int, advance: Bool) raises -> ReadResult:
@@ -126,17 +110,13 @@ struct Parser:
       increment = size
     return ReadResult(pos + increment, size, data)
 
-fn main() raises:
-  var args = sysutils.get_params()
-  if args.size == 0:
-    print("Usage: mojo preset_parser <preset file>")
-    return
-  var filename = sysutils.get_app_path() + args[0]
-  print("filename: " + filename)
-  print()
-  var parser = Parser()
-  parser.process_preset(filename, False)
-  print()
+  fn vec_to_string(self, data: List[UInt8]) raises -> String:
+    var result = String()
+    for i in range(0, len(data)):
+      if data[i] == 0x00:
+        break
+      result += chr(data[i].__int__())
+    return result
 
 
   
