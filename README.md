@@ -85,7 +85,7 @@ A proof-of-concept for using Mojo for binary file reading.
 
 It parses the initial metadata found in a Bitwig `.bwpreset` file and displays it to the console.
 
-To save to folder diving, you can run it from the root folder with...
+To save you from too much folder diving, you can run it from the root folder with...
 
 Usage: `mojo parser.mojo <path-to-preset-file>`
 
