@@ -9,7 +9,8 @@ fn main() raises:
   var filename = sysutils.get_app_path() + args[0]
   print("filename: " + filename)
   print()
+  
   var pp = presetparser.PresetParser()
-  pp.process_preset(filename, False)
+  pp.process_preset(filename)
   print()
 

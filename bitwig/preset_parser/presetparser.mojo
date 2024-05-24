@@ -15,23 +15,24 @@ struct ReadResult(StringableRaising):
     return result
 
 struct PresetParser:
+  var debug: Bool
 
   fn __init__(inout self) raises:
-    pass
+    self.debug = False
 
-  fn process_preset(borrowed self, file_name: String, debug: Bool) raises:
+  fn process_preset(borrowed self, file_name: String) raises:
     var pos: Int = 0x36
 
     var f = open(file_name, "r")
     while True:
-      var result = self.read_key_and_value(f, pos, debug)
+      var result = self.read_key_and_value(f, pos)
       pos = result.pos
       if result.size == 0: break
     f.close()
 
-  fn read_key_and_value(borrowed self, f: FileHandle, inout pos: Int, debug: Bool) raises -> ReadResult:
+  fn read_key_and_value(borrowed self, f: FileHandle, inout pos: Int) raises -> ReadResult:
     var skips = self.get_skip_size(f, pos)
-    if debug:
+    if self.debug:
       self.get_skip_size_debug(f, pos)
       print(String(skips) + " skips")
     pos += skips
@@ -44,7 +45,7 @@ struct PresetParser:
     printf["[%s] "](self.vec_to_string(data))
 
     skips = self.get_skip_size(f, pos)
-    if debug:
+    if self.debug:
       self.get_skip_size_debug(f, pos)
       print(String(skips) + " skips")
     pos += skips
@@ -88,21 +89,20 @@ struct PresetParser:
       size |= new_read.data[i].cast[DType.uint32]() << ((3 - i) * 8)
     return ReadResult(pos, size.__int__(), List[UInt8]())
 
-  fn print_byte_vector(self, data: List[UInt8]) raises:
+  @staticmethod
+  fn print_byte_vector(data: List[UInt8]) raises:
     for i in range(0, data.__len__()):
       printf["%02x "](data[i])
     print()
 
-  fn read_from_file(self, f: FileHandle, pos: Int, size: Int, advance: Bool) raises -> ReadResult:
+  @staticmethod
+  fn read_from_file(f: FileHandle, pos: Int, size: Int, advance: Bool) raises -> ReadResult:
     var data = List[UInt8]()
     try:
       _ = f.seek(pos)
     except:
       return ReadResult(0, 0, List[UInt8]())
-    # f.read_bytes forces the use of a SIMD[si64, 1] for `size`
-    # and a Tensor[DType.int8] for the return type!
-    var t_si8: Tensor[DType.int8] = f.read_bytes(size)
-    var t_ui8: Tensor[DType.uint8] = t_si8.astype[DType.uint8]()
+    var t_ui8: Tensor[DType.uint8] = f.read_bytes(size)
     for i in range(0, t_ui8.num_elements()):
       data.append(t_ui8[i]) 
     var increment = 0
@@ -110,7 +110,8 @@ struct PresetParser:
       increment = size
     return ReadResult(pos + increment, size, data)
 
-  fn vec_to_string(self, data: List[UInt8]) raises -> String:
+  @staticmethod
+  fn vec_to_string(data: List[UInt8]) raises -> String:
     var result = String()
     for i in range(0, len(data)):
       if data[i] == 0x00:
