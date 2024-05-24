@@ -1,1 +1,1 @@
-from .preset_parser import PresetParser
+from preset_parser import PresetParser

@@ -79,15 +79,17 @@ fn main():
 
 ## `preset_parser`
 
-found in `ca_mojo/ca_lib/preset_parser`
+found in `ca_mojo/ca_lib/preset_parser/presetparser.mojo`
 
 A proof-of-concept for using Mojo for binary file reading.
 
 It parses the initial metadata found in a Bitwig `.bwpreset` file and displays it to the console.
 
-Usage: `mojo preset_parser.mojo <path-to-preset-file>`
+To save to folder diving, you can run it from the root folder with...
 
-Eg: `mojo preset_parser.mojo ./Diffusion.bwpreset` 
-or: `mojo preset_parser.mojo ./Binaural_Organ_Device.bwpreset`
+Usage: `mojo parser.mojo <path-to-preset-file>`
 
-It uses some path related functions in `c_mojo/ca_lib/sysutils`.
+Eg: `mojo parser.mojo ./Diffusion.bwpreset` 
+or: `mojo parser.mojo ./Binaural_Organ_Device.bwpreset`
+
+It uses some path related functions in `ca_mojo/ca_lib/sysutils`.
