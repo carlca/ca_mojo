@@ -93,3 +93,12 @@ Eg: `mojo parser.mojo ./Diffusion.bwpreset`
 or: `mojo parser.mojo ./Binaural_Organ_Device.bwpreset`
 
 It uses some path related functions in `ca_mojo/ca_lib/sysutils`.
+
+In the file, `parser.mojo`, you can set `debug = True` to get more information about the parsing process.
+
+```mojo
+  var pp = presetparser.PresetParser()
+  pp.debug = False
+  pp.process_preset(filename)
+  print()
+```
