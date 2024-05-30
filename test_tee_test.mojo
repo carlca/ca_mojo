@@ -1,8 +1,6 @@
 from teetest import TeeTest
 from builtin._location import __call_location
 
-var tests = TeeTest()
-
 @always_inline
 fn test1() raises -> (Bool, String):
   return True, str(__call_location())
