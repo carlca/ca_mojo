@@ -229,7 +229,7 @@ struct Matrix:
       result += "["
       for j in range(self.cols):
         if places == 0:
-          result += self[i, j]
+          result += str(self[i, j])
         else:
           result += fu.format_float(self[i, j], places)
         if j != self.cols - 1:

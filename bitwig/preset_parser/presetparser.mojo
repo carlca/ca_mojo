@@ -8,7 +8,7 @@ struct ReadResult(StringableRaising):
   var data: List[UInt8]
 
   fn __str__(self) raises -> String:
-    var result = "pos: " + String(self.pos) + " size: " + String(self.size) + " data: [" 
+    var result = "pos: " + str(self.pos) + " size: " + str(self.size) + " data: [" 
     for i in range(0, self.data.__len__()):
       result += String(self.data[i]) + " "
     result += "]"  
@@ -34,7 +34,7 @@ struct PresetParser:
     var skips = self.get_skip_size(f, pos)
     if self.debug:
       self.get_skip_size_debug(f, pos)
-      print(String(skips) + " skips")
+      print(str(skips) + " skips")
     pos += skips
 
     var result = self.read_next_size_and_chunk(f, pos)
@@ -47,7 +47,7 @@ struct PresetParser:
     skips = self.get_skip_size(f, pos)
     if self.debug:
       self.get_skip_size_debug(f, pos)
-      print(String(skips) + " skips")
+      print(str(skips) + " skips")
     pos += skips
 
     result = self.read_next_size_and_chunk(f, pos)

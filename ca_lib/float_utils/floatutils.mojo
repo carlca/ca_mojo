@@ -30,7 +30,7 @@ struct fu:
   @staticmethod
   fn format_float(f: Float64, dec_places: Int) -> String:
     # get input number as a string
-    var f_str = String(f)
+    var f_str = str(f)
     # use position of the decimal point to determine the number of decimal places
     var int_places = f_str.find(".")
     # build a multiplier to shift the digits before the decimal point
@@ -39,14 +39,14 @@ struct fu:
     # use the multiplier build the integer value of the input number
     var i = Float64(f * mult).cast[DType.int32]()
     # get the integer value as a string
-    var i_str_full = String(i)
+    var i_str_full = str(i)
     # grab the last digit to be used to adjust/leave the previous digit
     var last_digit = i_str_full[len(i_str_full)-1]
     # grab the last but one digit in the integer string
     var prev_digit_pos = len(i_str_full) - 1
     var prev_digit = i_str_full[prev_digit_pos - 1]
     # if last digit is >= to 5 then we...
-    if ord(last_digit) >= ord(5):
+    if ord(last_digit) >= ord("5"):
       # ... increment it by 1
       prev_digit = chr(ord(prev_digit) + 1)
     # isolate the unchanging part of integer string

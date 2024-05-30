@@ -50,7 +50,7 @@ struct TeeTest:
     try:
       succeeded, source_loc = f()
     except e:
-      return Raised(e)
+      return Raised(str(e))
     return TestResult(Passed(source_loc)) if succeeded
       else TestResult(Failed(source_loc))
 
