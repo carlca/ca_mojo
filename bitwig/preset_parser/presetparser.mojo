@@ -10,7 +10,7 @@ struct ReadResult(StringableRaising):
   fn __str__(self) raises -> String:
     var result = "pos: " + str(self.pos) + " size: " + str(self.size) + " data: [" 
     for i in range(0, self.data.__len__()):
-      result += String(self.data[i]) + " "
+      result += str(self.data[i]) + " "
     result += "]"  
     return result
 
