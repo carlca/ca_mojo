@@ -63,6 +63,7 @@ struct PresetParser:
 
   fn get_skip_size_debug(borrowed self, f: FileHandle, inout pos: Int) raises:
     var bytes = self.read_from_file(f, pos, 32, True).data
+    printf["\n"]()
     for b in range(0, bytes.__len__()):
       printf["%02x "](bytes[b])
     print()

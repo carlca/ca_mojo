@@ -12,22 +12,23 @@ struct Matrix:
   var total_items: Int
   var data: DTypePointer[DType.float64]
   var debugging: Bool
+  alias nelts = simdwidthof[DType.float64]() * 2
 
   fn __init__(inout self, rows: Int, cols: Int) -> None:
     self.debugging = False
     self.rows = rows if rows > 0 else 1
     self.cols = cols if cols > 0 else 1 
     self.total_items = self.rows * self.cols
-    self.data = Pointer[Float64].alloc(self.total_items) 
+    self.data = DTypePointer[DType.float64].alloc(self.total_items) 
     for i in range(self.total_items):
-      self.data.store(i, 0.0)
+      SIMD.store(self.data, i, 0.0)  
 
   fn __init__(inout self, content: String) raises -> None:
     self.debugging = True	
     self.rows = 0
     self.cols = 0
     self.total_items = 0
-    self.data = Pointer[Float64].alloc(1)
+    self.data = DTypePointer[DType.float64].alloc(1)
     var s = content
     s = su.remove_char(s, " ")
     s = su.trim(s, "[", "]")
@@ -46,13 +47,13 @@ struct Matrix:
           self.rows = rows.size
           self.cols = this_count + 1
           self.total_items = self.rows * self.cols
-          self.data = Pointer[Float64].alloc(self.total_items)
+          self.data = DTypePointer[DType.float64].alloc(self.total_items)
           var i = 0
           for row in rows:
             var cols = su.split(row[], ",")
             for col in cols:
               var f = fu.str_to_float(col[])
-              self.data.store(i, f)
+              SIMD.store(self.data, i, f)
               i += 1
     except:
       None
@@ -70,14 +71,14 @@ struct Matrix:
     if index < 0 or index >= self.total_items:
       print("Error: Index out of bounds")
       return 0.0
-    return self.data.load(index)
+    return SIMD.load(self.data, index)
 
   fn __setitem__(inout self, row: Int, col: Int, value: Float64) -> None:
     var index = row * self.cols + col
     if index < 0 or index >= self.total_items:
       print("Error: Index out of bounds")
       return
-    self.data.store(index, value)
+    SIMD.store(self.data, index, value)
 
   fn __del__(owned self) -> None:
     self.data.free()	

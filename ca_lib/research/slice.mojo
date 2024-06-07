@@ -14,6 +14,6 @@ fn main():
   print("length of list is ",len(l))
   printf["%d %d %d\n"](l[0], l[1], l[2])
 
-
+  print(simdwidthof[DType.float64]() * 2)
   
     
