@@ -71,7 +71,7 @@ struct Matrix:
     if index < 0 or index >= self.total_items:
       print("Error: Index out of bounds")
       return 0.0
-    return SIMD.load(self.data, index)
+    return SIMD[size=1].load(self.data, index)
 
   fn __setitem__(inout self, row: Int, col: Int, value: Float64) -> None:
     var index = row * self.cols + col
