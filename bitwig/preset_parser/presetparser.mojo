@@ -1,4 +1,3 @@
-from tensor import Tensor, TensorSpec, TensorShape
 from builtin.io import _printf as printf
 
 @value
@@ -98,18 +97,12 @@ struct PresetParser:
 
   @staticmethod
   fn read_from_file(f: FileHandle, pos: Int, size: Int, advance: Bool) raises -> ReadResult:
-    var data = List[UInt8]()
     try:
       _ = f.seek(pos)
     except:
       return ReadResult(0, 0, List[UInt8]())
-    var t_ui8: Tensor[DType.uint8] = f.read_bytes(size)
-    for i in range(0, t_ui8.num_elements()):
-      data.append(t_ui8[i]) 
-    var increment = 0
-    if advance: 
-      increment = size
-    return ReadResult(pos + increment, size, data)
+    var data: List[UInt8] = f.read_bytes(size)
+    return ReadResult(pos + size if advance else 0, size, data)
 
   @staticmethod
   fn vec_to_string(data: List[UInt8]) raises -> String:

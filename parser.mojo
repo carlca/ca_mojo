@@ -11,7 +11,7 @@ fn main() raises:
   print()
   
   var pp = presetparser.PresetParser()
-  pp.debug = True
+  pp.debug = False
   pp.process_preset(filename)
   print()
 
