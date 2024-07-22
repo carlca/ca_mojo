@@ -1,5 +1,5 @@
-from math import max
 from collections import List
+from memory import DTypePointer, UnsafePointer
 
 from ..string_utils import su
 from ..float_utils import fu
@@ -91,8 +91,9 @@ struct Matrix:
     self.cols = other.cols
     self.total_items = other.total_items
     self.debugging = other.debugging
-    self.data = DTypePointer[DType.float64].alloc(self.total_items)
-    memcpy(self.data, other.data, self.total_items)
+    # self.data = UnsafePointer[Float64].alloc(self.total_items)
+    self.data = UnsafePointer[Scalar[DType.float64]].alloc(self.total_items)
+    memcpy(self.data.address, other.data.address, self.total_items)
 
   fn __eq__ (borrowed self, other: Matrix) -> Bool:
     for i in range(self.rows):
