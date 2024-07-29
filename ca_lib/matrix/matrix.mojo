@@ -1,5 +1,5 @@
 from collections import List
-from memory import DTypePointer, UnsafePointer
+from memory import UnsafePointer
 
 from ..string_utils import su
 from ..float_utils import fu
@@ -10,7 +10,7 @@ struct Matrix:
   var rows: Int
   var cols: Int
   var total_items: Int
-  var data: DTypePointer[DType.float64]
+  var data: UnsafePointer[Scalar[DType.float64]]
   var debugging: Bool
   alias nelts = simdwidthof[DType.float64]() * 2
 
@@ -19,7 +19,7 @@ struct Matrix:
     self.rows = rows if rows > 0 else 1
     self.cols = cols if cols > 0 else 1 
     self.total_items = self.rows * self.cols
-    self.data = DTypePointer[DType.float64].alloc(self.total_items) 
+    self.data = UnsafePointer[Scalar[DType.float64]].alloc(self.total_items) 
     for i in range(self.total_items):
       SIMD.store(self.data, i, 0.0)  
 
@@ -28,7 +28,7 @@ struct Matrix:
     self.rows = 0
     self.cols = 0
     self.total_items = 0
-    self.data = DTypePointer[DType.float64].alloc(1)
+    self.data = UnsafePointer[Scalar[DType.float64]].alloc(1)
     var s = content
     s = su.remove_char(s, " ")
     s = su.trim(s, "[", "]")
@@ -47,7 +47,7 @@ struct Matrix:
           self.rows = rows.size
           self.cols = this_count + 1
           self.total_items = self.rows * self.cols
-          self.data = DTypePointer[DType.float64].alloc(self.total_items)
+          self.data = UnsafePointer[Scalar[DType.float64]].alloc(self.total_items)
           var i = 0
           for row in rows:
             var cols = su.split(row[], ",")
