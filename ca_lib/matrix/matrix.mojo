@@ -1,5 +1,5 @@
 from collections import List
-from memory import UnsafePointer
+from memory import UnsafePointer, memcpy
 
 from ..string_utils import su
 from ..float_utils import fu
