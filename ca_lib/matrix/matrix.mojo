@@ -92,7 +92,6 @@ struct Matrix:
     self.cols = other.cols
     self.total_items = other.total_items
     self.debugging = other.debugging
-    # self.data = UnsafePointer[Float64].alloc(self.total_items)
     self.data = DataType.alloc(self.total_items)
     memcpy(self.data.address, other.data.address, self.total_items)
 

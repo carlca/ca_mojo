@@ -113,6 +113,3 @@ struct PresetParser:
         break
       result += chr(data[i].__int__())
     return result
-
-
-  
