@@ -12,18 +12,18 @@ struct List[T: AnyType]:
   var _end_of_strings: DynamicVector[Int]
   var iter_index: Int
 
-  fn __init__(inout self):
+  fn __init__(out self):
     self._internal_string = ""
     self._end_of_strings = DynamicVector[Int]()
     self.iter_index = 0
 
-  fn __init__(inout self, input_value: String):
+  fn __init__(out self, input_value: String):
     self._internal_string = ""
     self._end_of_strings = DynamicVector[Int]()
     for i in range(len(input_value)):
       self.append(input_value[i])
 
-  fn append(inout self, value: String):
+  fn append(out self, value: String):
     self._internal_string += value
     self._end_of_strings.push_back(len(self._internal_string))
 
@@ -57,7 +57,7 @@ struct List[T: AnyType]:
 
   fn __iter__(self) -> ListIter[T]:
     return ListIter(self)
-    
+
   fn str(borrowed self) raises -> String:
     var result: String = ""
     for i in range(self.__len__()):

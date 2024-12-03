@@ -32,7 +32,7 @@ alias TestResult = Variant[Passed, Failed, Raised]
 struct TeeTest:
   var tests: List[TestFn]
 
-  fn __init__(inout self, *tests: TestFn):
+  fn __init__(out self, *tests: TestFn):
     self.tests = List[TestFn]()
     for test in tests:
       self.add_test(test)
@@ -40,7 +40,7 @@ struct TeeTest:
   fn count(self) -> Int:
     return len(self.tests)
 
-  fn add_test(inout self, func: TestFn):
+  fn add_test(mut self, func: TestFn):
     self.tests.append(func)
 
   @staticmethod

@@ -14,18 +14,18 @@ struct Matrix:
   var total_items: Int
   var data: DataType
   var debugging: Bool
-  
-  fn __init__(inout self, rows: Int, cols: Int) -> None:
+
+  fn __init__(out self, rows: Int, cols: Int) -> None:
     self.debugging = False
     self.rows = rows if rows > 0 else 1
-    self.cols = cols if cols > 0 else 1 
+    self.cols = cols if cols > 0 else 1
     self.total_items = self.rows * self.cols
-    self.data = DataType.alloc(self.total_items) 
+    self.data = DataType.alloc(self.total_items)
     for i in range(self.total_items):
       DataType.store(self.data, i, 0.0)
 
-  fn __init__(inout self, content: String) raises -> None:
-    self.debugging = True	
+  fn __init__(out self, content: String) raises -> None:
+    self.debugging = True
     self.rows = 0
     self.cols = 0
     self.total_items = 0
@@ -37,7 +37,7 @@ struct Matrix:
     var rows = su.split(s, "],[")
     var this_count = 0
     var last_count = 0
-    # Check if all rows in `content` have the same number of columns 
+    # Check if all rows in `content` have the same number of columns
     try:
       for row in rows:
         this_count = su.count_char(row[], ",")
@@ -74,7 +74,7 @@ struct Matrix:
       return 0.0
     return self.data.load[width=1](index)
 
-  fn __setitem__(inout self, row: Int, col: Int, value: Float64) -> None:
+  fn __setitem__(mut self, row: Int, col: Int, value: Float64) -> None:
     var index = row * self.cols + col
     if index < 0 or index >= self.total_items:
       print("Error: Index out of bounds")
@@ -82,12 +82,12 @@ struct Matrix:
     DataType.store(self.data, index, value)
 
   fn __del__(owned self) -> None:
-    self.data.free()	
+    self.data.free()
 
   fn __len__(borrowed self) -> Int:
     return self.total_items
 
-  fn __copyinit__(inout self, other: Matrix) -> None:
+  fn __copyinit__(out self, other: Matrix) -> None:
     self.rows = other.rows
     self.cols = other.cols
     self.total_items = other.total_items
@@ -115,7 +115,7 @@ struct Matrix:
         result[i, j] = self[i, j] + other[i, j]
     return result
 
-  fn __iadd__ (inout self: Matrix, other: Matrix) -> None:
+  fn __iadd__ (out self: Matrix, other: Matrix) -> None:
     self = self + other
 
   fn __sub__ (borrowed self, other: Matrix) -> Matrix:
@@ -128,7 +128,7 @@ struct Matrix:
         result[i, j] = self[i, j] - other[i, j]
     return result
 
-  fn __isub__ (inout self: Matrix, other: Matrix) -> None:
+  fn __isub__ (out self: Matrix, other: Matrix) -> None:
     self = self - other
 
   fn __mul__ (borrowed self, other: Matrix) -> Matrix:
@@ -159,7 +159,7 @@ struct Matrix:
         result[i, j] = self[i, j] + other
     return result
 
-  fn __iadd__ (inout self: Matrix, other: Float64) -> None:
+  fn __iadd__ (out self: Matrix, other: Float64) -> None:
     self = self + other
 
   fn __sub__ (borrowed self, other: Float64) -> Matrix:
@@ -169,7 +169,7 @@ struct Matrix:
         result[i, j] = self[i, j] - other
     return result
 
-  fn __isub__ (inout self: Matrix, other: Float64) -> None:
+  fn __isub__ (out self: Matrix, other: Float64) -> None:
     self = self - other
 
   fn __mul__ (borrowed self, other: Float64) -> Matrix:
@@ -179,7 +179,7 @@ struct Matrix:
         result[i, j] = self[i, j] * other
     return result
 
-  fn __imul__ (inout self: Matrix, other: Float64) -> None:
+  fn __imul__ (out self: Matrix, other: Float64) -> None:
     self = self * other
 
   fn __truediv__ (borrowed self, other: Float64) -> Matrix:
@@ -189,7 +189,7 @@ struct Matrix:
         result[i, j] = self[i, j] / other
     return result
 
-  fn __itruediv__ (inout self: Matrix, other: Float64) -> None:
+  fn __itruediv__ (out self: Matrix, other: Float64) -> None:
     self = self / other
 
   fn __neg__ (borrowed self) -> Matrix:
@@ -197,7 +197,7 @@ struct Matrix:
     for i in range(self.rows):
       for j in range(self.cols):
         result[i, j] = -self[i, j]
-    return result	
+    return result
 
   fn apply_func [func: fn(Float64) -> Float64](borrowed self) -> Matrix:
     var result = Matrix(self.rows, self.cols)
@@ -218,7 +218,7 @@ struct Matrix:
 
   fn print_to(borrowed self, places: Int) -> None:
     print(self.get_data_as_string(places))
-  
+
   fn get_data_as_string(borrowed self) -> String:
     return self.get_data_as_string(0)
 
@@ -258,14 +258,14 @@ struct Matrix:
       result[i, 0] = self[i, col]
     return result
 
-  fn set_row (inout self: Matrix, row: Int, other: Matrix) -> None:
+  fn set_row (out self: Matrix, row: Int, other: Matrix) -> None:
     if other.rows != 1 or other.cols != self.cols:
       print("Error: Matrix dimensions must match")
       return
     for i in range(self.cols):
       self[row, i] = other[0, i]
 
-  fn set_col (inout self: Matrix, col: Int, other: Matrix) -> None:
+  fn set_col (out self: Matrix, col: Int, other: Matrix) -> None:
     if other.rows != self.rows or other.cols != 1:
       print("Error: Matrix dimensions must match")
       return
@@ -273,7 +273,7 @@ struct Matrix:
       self[i, col] = other[i, 0]
 
   fn get_slice (borrowed self, row_start: Int, row_end: Int, col_start: Int, col_end: Int) -> Matrix:
-    if row_start < 0 or row_start >= self.rows or row_end < 0 or row_end >= self.rows 
+    if row_start < 0 or row_start >= self.rows or row_end < 0 or row_end >= self.rows
       or col_start < 0 or col_start >= self.cols or col_end < 0 or col_end >= self.cols:
       print("Error: Index out of bounds")
       return Matrix(1, 1)
@@ -283,7 +283,7 @@ struct Matrix:
         result[i - row_start, j - col_start] = self[i, j]
     return result
 
-  fn set_slice (inout self: Matrix, row_start: Int, row_end: Int, col_start: Int, col_end: Int, other: Matrix) -> None:
+  fn set_slice (out self: Matrix, row_start: Int, row_end: Int, col_start: Int, col_end: Int, other: Matrix) -> None:
     if row_start < 0 or row_start >= self.rows or row_end < 0 or row_end >= self.rows or col_start < 0 or col_start >= self.cols or col_end < 0 or col_end >= self.cols:
       print("Error: Index out of bounds")
       return
@@ -297,35 +297,35 @@ struct Matrix:
   fn get_slice_row (borrowed self, row_start: Int, row_end: Int) -> Matrix:
     return self.get_slice(row_start, row_end, 0, self.cols - 1)
 
-  fn set_slice_row (inout self: Matrix, row_start: Int, row_end: Int, other: Matrix) -> None:
+  fn set_slice_row (out self: Matrix, row_start: Int, row_end: Int, other: Matrix) -> None:
     self.set_slice(row_start, row_end, 0, self.cols - 1, other)
 
   fn get_slice_col (borrowed self, col_start: Int, col_end: Int) -> Matrix:
     return self.get_slice(0, self.rows - 1, col_start, col_end)
 
-  fn set_slice_col (inout self: Matrix, col_start: Int, col_end: Int, other: Matrix) -> None:
-    self.set_slice(0, self.rows - 1, col_start, col_end, other)	
+  fn set_slice_col (out self: Matrix, col_start: Int, col_end: Int, other: Matrix) -> None:
+    self.set_slice(0, self.rows - 1, col_start, col_end, other)
 
   fn get_slice_row (borrowed self, row: Int) -> Matrix:
     return self.get_slice(row, row, 0, self.cols - 1)
 
-  fn set_slice_row (inout self: Matrix, row: Int, other: Matrix) -> None:
+  fn set_slice_row (out self: Matrix, row: Int, other: Matrix) -> None:
     self.set_slice(row, row, 0, self.cols - 1, other)
 
   fn get_slice_col (borrowed self, col: Int) -> Matrix:
     return self.get_slice(0, self.rows - 1, col, col)
 
-  fn set_slice_col (inout self: Matrix, col: Int, other: Matrix) -> None:
+  fn set_slice_col (out self: Matrix, col: Int, other: Matrix) -> None:
     self.set_slice(0, self.rows - 1, col, col, other)
 
   fn get_slice_row (borrowed self, row_start: Int, row_end: Int, col: Int) -> Matrix:
     return self.get_slice(row_start, row_end, col, col)
 
-  fn set_slice_row (inout self: Matrix, row_start: Int, row_end: Int, col: Int, other: Matrix) -> None:
+  fn set_slice_row (out self: Matrix, row_start: Int, row_end: Int, col: Int, other: Matrix) -> None:
     self.set_slice(row_start, row_end, col, col, other)
 
   fn get_slice_col (borrowed self, row: Int, col_start: Int, col_end: Int) -> Matrix:
     return self.get_slice(row, row, col_start, col_end)
 
-  fn set_slice_col (inout self: Matrix, row: Int, col_start: Int, col_end: Int, other: Matrix) -> None:
+  fn set_slice_col (out self: Matrix, row: Int, col_start: Int, col_end: Int, other: Matrix) -> None:
     self.set_slice(row, row, col_start, col_end, other)

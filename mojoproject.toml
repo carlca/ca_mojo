@@ -1,0 +1,19 @@
+[project]
+authors = ["carlca <carl.caulkett@gmail.com>"]
+channels = ["conda-forge", "https://conda.modular.com/max-nightly"]
+description = "Add a short description here"
+name = "ca_mojo"
+platforms = ["osx-arm64"]
+version = "0.1.0"
+
+[tasks]
+t1 = "mojo test_float_utils.mojo"
+t2 = "mojo test_matrix.mojo"
+t3 = "mojo test_string_utils.mojo"
+t4 = "mojo test_tee_test.mojo"
+t5 = "mojo parser.mojo Diffusion.bwpreset"
+tests = "magic run t1 && magic run t2 && magic run t3 && magic run t4 && magic run t5"
+default = "magic run tests"
+
+[dependencies]
+max = ">=24.6.0.dev2024090917,<25"

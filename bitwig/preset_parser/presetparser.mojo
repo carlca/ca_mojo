@@ -8,16 +8,16 @@ struct ReadResult(StringableRaising):
   var data: List[UInt8]
 
   fn __str__(self) raises -> String:
-    var result = "pos: " + str(self.pos) + " size: " + str(self.size) + " data: [" 
+    var result = "pos: " + str(self.pos) + " size: " + str(self.size) + " data: ["
     for i in range(0, self.data.__len__()):
       result += str(self.data[i]) + " "
-    result += "]"  
+    result += "]"
     return result
 
 struct PresetParser:
   var debug: Bool
 
-  fn __init__(inout self) raises:
+  fn __init__(mut self) raises:
     self.debug = False
 
   fn process_preset(borrowed self, file_name: String) raises:
@@ -30,7 +30,7 @@ struct PresetParser:
       if result.size == 0: break
     f.close()
 
-  fn read_key_and_value(borrowed self, f: FileHandle, inout pos: Int) raises -> ReadResult:
+  fn read_key_and_value(borrowed self, f: FileHandle, mut pos: Int) raises -> ReadResult:
     var skips = self.get_skip_size(f, pos)
     if self.debug:
       self.get_skip_size_debug(f, pos)
@@ -54,14 +54,14 @@ struct PresetParser:
     printf["%s\n"](self.vec_to_string(result.data))
     return ReadResult(result.pos, result.size, List[UInt8]())
 
-  fn get_skip_size(borrowed self, f: FileHandle, inout pos: Int) raises -> Int:
+  fn get_skip_size(borrowed self, f: FileHandle, mut pos: Int) raises -> Int:
     var bytes = self.read_from_file(f, pos, 32, True).data
     for i in range(0, bytes.__len__()):
       if bytes[i] >= 0x20 and (i == 5 or i == 8 or i == 13):
         return i - 4
     return 1
 
-  fn get_skip_size_debug(borrowed self, f: FileHandle, inout pos: Int) raises:
+  fn get_skip_size_debug(borrowed self, f: FileHandle, mut pos: Int) raises:
     var bytes = self.read_from_file(f, pos, 32, True).data
     printf["\n"]()
     for b in range(0, bytes.__len__()):
@@ -74,13 +74,13 @@ struct PresetParser:
         printf["   "]()
     print()
 
-  fn read_next_size_and_chunk(self, f: FileHandle, inout pos: Int) raises -> ReadResult:
+  fn read_next_size_and_chunk(self, f: FileHandle, mut pos: Int) raises -> ReadResult:
     var int_chunk = self.read_int_chunk(f, pos);
     if (int_chunk.size == 0):
       return ReadResult(pos, 0, List[UInt8]())
     return self.read_from_file(f, int_chunk.pos, int_chunk.size, True)
-    
-  fn read_int_chunk(self, f: FileHandle, inout pos: Int) raises -> ReadResult:
+
+  fn read_int_chunk(self, f: FileHandle, mut pos: Int) raises -> ReadResult:
     var new_read = self.read_from_file(f, pos, 4, True)
     if new_read.data.size == 0:
       return ReadResult(0, 0, List[UInt8]())
