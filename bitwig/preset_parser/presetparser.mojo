@@ -1,4 +1,3 @@
-
 from builtin.io import _printf as printf
 
 @value
@@ -20,7 +19,7 @@ struct PresetParser:
   fn __init__(mut self) raises:
     self.debug = False
 
-  fn process_preset(borrowed self, file_name: String) raises:
+  fn process_preset(read self, file_name: String) raises:
     var pos: Int = 0x36
 
     var f = open(file_name, "r")
@@ -30,7 +29,7 @@ struct PresetParser:
       if result.size == 0: break
     f.close()
 
-  fn read_key_and_value(borrowed self, f: FileHandle, mut pos: Int) raises -> ReadResult:
+  fn read_key_and_value(read self, f: FileHandle, mut pos: Int) raises -> ReadResult:
     var skips = self.get_skip_size(f, pos)
     if self.debug:
       self.get_skip_size_debug(f, pos)
@@ -54,14 +53,14 @@ struct PresetParser:
     printf["%s\n"](self.vec_to_string(result.data))
     return ReadResult(result.pos, result.size, List[UInt8]())
 
-  fn get_skip_size(borrowed self, f: FileHandle, mut pos: Int) raises -> Int:
+  fn get_skip_size(read self, f: FileHandle, mut pos: Int) raises -> Int:
     var bytes = self.read_from_file(f, pos, 32, True).data
     for i in range(0, bytes.__len__()):
       if bytes[i] >= 0x20 and (i == 5 or i == 8 or i == 13):
         return i - 4
     return 1
 
-  fn get_skip_size_debug(borrowed self, f: FileHandle, mut pos: Int) raises:
+  fn get_skip_size_debug(read self, f: FileHandle, mut pos: Int) raises:
     var bytes = self.read_from_file(f, pos, 32, True).data
     printf["\n"]()
     for b in range(0, bytes.__len__()):
