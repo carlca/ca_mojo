@@ -8,7 +8,7 @@ struct sysutils:
   fn get_full_app_name() -> String:
     var args = sys.argv()
     if args.__len__() > 0:
-      return args[0]
+      return String(args[0])
     return "Unknown"
 
   @staticmethod
@@ -44,7 +44,7 @@ struct sysutils:
     var args = sys.argv()
     if args.__len__() > 0:
       for i in range(0, args.__len__()):
-        result.append(args[i])
+        result.append(String(args[i]))
     return result
 
   @staticmethod
