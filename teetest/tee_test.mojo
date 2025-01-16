@@ -50,18 +50,18 @@ struct TeeTest:
     try:
       succeeded, source_loc = f()
     except e:
-      return Raised(str(e))
+      return Raised(String(e))
     return TestResult(Passed(source_loc)) if succeeded
       else TestResult(Failed(source_loc))
 
   @staticmethod
   fn _res_to_str(self: TestResult) -> String:
     if self.isa[Passed]():
-      return str(self[Passed])
+      return String(self[Passed])
     elif self.isa[Failed]():
-      return str(self[Failed])
+      return String(self[Failed])
     else:
-      return str(self[Raised])
+      return String(self[Raised])
 
   fn run_tests(self, failed_only: Bool = True) raises:
     var succ_count = 0
@@ -77,7 +77,7 @@ struct TeeTest:
         var code_lines = s.split("\n")
         var line_str = code_lines[line - 1].removesuffix(",")
         if i == 0: print("")
-        var str = "Test " + str(i + 1) + " - " + line_str.lstrip() + ":" + success
+        var str = "Test " + String(i + 1) + " - " + line_str.lstrip() + ":" + success
 
         if res.isa[Passed]():
           succ_count += 1

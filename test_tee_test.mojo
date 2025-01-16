@@ -3,19 +3,19 @@ from builtin._location import __call_location
 
 @always_inline
 fn test1() raises -> (Bool, String):
-  return True, str(__call_location())
+  return True, String(__call_location())
 
 @always_inline
 fn test2() raises -> (Bool, String):
-  return True, str(__call_location())
+  return True, String(__call_location())
 
 @always_inline
 fn test3() raises -> (Bool, String):
-  return True, str(__call_location())
+  return True, String(__call_location())
 
 @always_inline
 fn test4() raises -> (Bool, String):
-  return True, str(__call_location())
+  return True, String(__call_location())
 
 fn main() raises:
   TeeTest(

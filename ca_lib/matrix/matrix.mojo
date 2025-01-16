@@ -117,7 +117,6 @@ struct Matrix:
 
   fn __iadd__ (mut self, other: Matrix) -> None:
     self = self + other
-    # return self
 
   fn __sub__ (read self, other: Matrix) -> Matrix:
     if self.rows != other.rows or self.cols != other.cols:
@@ -232,7 +231,7 @@ struct Matrix:
       result += "["
       for j in range(self.cols):
         if places == 0:
-          result += str(self[i, j])
+          result += String(self[i, j])
         else:
           result += fu.format_float(self[i, j], places)
         if j != self.cols - 1:

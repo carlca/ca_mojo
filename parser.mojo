@@ -1,4 +1,4 @@
-from ca_lib.sys_utils import sysutils 
+from ca_lib.sys_utils import sysutils
 from bitwig.preset_parser import presetparser
 
 fn main() raises:
@@ -9,11 +9,8 @@ fn main() raises:
   var filename = sysutils.get_app_path() + args[0]
   print("filename: " + filename)
   print()
-  
+
   var pp = presetparser.PresetParser()
   pp.debug = False
   pp.process_preset(filename)
   print()
-
-  
-
