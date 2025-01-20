@@ -1,0 +1,135 @@
+OVERVIEW: Mojo LSP Language Server
+USAGE: mojo-lsp-server [options]
+
+OPTIONS:
+
+Color Options:
+
+  --color                                                    - Use colors in output (default=autodetect)
+
+General options:
+
+  -I <string>                                                - Append directory to the search path list used to resolve imported modules in a document
+  --abort-on-max-devirt-iterations-reached                   - Abort when the max iterations for devirtualization CGSCC repeat pass is reached
+  --atomic-counter-update-promoted                           - Do counter update using atomic fetch add  for promoted counters only
+  --atomic-first-counter                                     - Use atomic fetch add for first counter in a function (usually the entry counter)
+  --attach-debugger-on-startup                               - Launch the server and start a debug session attached to it on VS Code
+  --bounds-checking-single-trap                              - Use one trap block per function
+  --bounds-checking-unique-traps                             - Always use one trap per check
+  --cfg-hide-cold-paths=<number>                             - Hide blocks with relative frequency below the given value
+  --cfg-hide-deoptimize-paths                                - 
+  --cfg-hide-unreachable-paths                               - 
+  --check-functions-filter=<regex>                           - Only emit checks for arguments of functions whose names match the given regular expression
+  --conditional-counter-update                               - Do conditional counter updates in single byte counters mode)
+  --cost-kind=<value>                                        - Target cost kind
+    =throughput                                              -   Reciprocal throughput
+    =latency                                                 -   Instruction latency
+    =code-size                                               -   Code size
+    =size-latency                                            -   Code size and latency
+  --debug-info-correlate                                     - Use debug info to correlate profiles. (Deprecated, use -profile-correlate=debug-info)
+  --debugify-func-limit=<ulong>                              - Set max number of processed functions per pass.
+  --debugify-level=<value>                                   - Kind of debug info to add
+    =locations                                               -   Locations only
+    =location+variables                                      -   Locations and Variables
+  --debugify-quiet                                           - Suppress verbose debugify output
+  --disable-auto-upgrade-debug-info                          - Disable autoupgrade of debug info
+  --disable-i2p-p2i-opt                                      - Disables inttoptr/ptrtoint roundtrip optimization
+  --do-counter-promotion                                     - Do counter register promotion
+  --dot-cfg-mssa=<file name for generated dot file>          - file name for generated dot file
+  --enable-gvn-hoist                                         - Enable the GVN hoisting pass (default = off)
+  --enable-gvn-memdep                                        - 
+  --enable-gvn-sink                                          - Enable the GVN sinking pass (default = off)
+  --enable-jump-table-to-switch                              - Enable JumpTableToSwitch pass (default = off)
+  --enable-load-in-loop-pre                                  - 
+  --enable-load-pre                                          - 
+  --enable-loop-simplifycfg-term-folding                     - 
+  --enable-name-compression                                  - Enable name/filename string compression
+  --enable-split-backedge-in-load-pre                        - 
+  --enable-split-loopiv-heuristic                            - Enable loop iv regalloc heuristic
+  --enable-vtable-profile-use                                - If ThinLTO and WPD is enabled and this option is true, vtable profiles will be used by ICP pass for more efficient indirect call sequence. If false, type profiles won't be used.
+  --enable-vtable-value-profiling                            - If true, the virtual table address will be instrumented to know the types of a C++ pointer. The information is used in indirect call promotion to do selective vtable-based comparison.
+  --expand-variadics-override=<value>                        - Override the behaviour of expand-variadics
+    =unspecified                                             -   Use the implementation defaults
+    =disable                                                 -   Disable the pass entirely
+    =optimize                                                -   Optimise without changing ABI
+    =lowering                                                -   Change variadic calling convention
+  --experimental-debug-variable-locations                    - Use experimental new value-tracking variable locations
+  --experimental-debuginfo-iterators                         - Enable communicating debuginfo positions through iterators, eliminating intrinsics. Has no effect if --preserve-input-debuginfo-format=true.
+  --force-tail-folding-style=<value>                         - Force the tail folding style
+    =none                                                    -   Disable tail folding
+    =data                                                    -   Create lane mask for data only, using active.lane.mask intrinsic
+    =data-without-lane-mask                                  -   Create lane mask with compare/stepvector
+    =data-and-control                                        -   Create lane mask using active.lane.mask intrinsic, and use it for both data and control flow
+    =data-and-control-without-rt-check                       -   Similar to data-and-control, but remove the runtime check
+    =data-with-evl                                           -   Use predicated EVL instructions for tail folding. If EVL is unsupported, fallback to data-without-lane-mask.
+  --fs-profile-debug-bw-threshold=<uint>                     - Only show debug message if the source branch weight is greater  than this value.
+  --fs-profile-debug-prob-diff-threshold=<uint>              - Only show debug message if the branch probility is greater than this value (in percentage).
+  --generate-merged-base-profiles                            - When generating nested context-sensitive profiles, always generate extra base profile for function with all its context profiles merged into it.
+  --hash-based-counter-split                                 - Rename counter variable of a comdat function based on cfg hash
+  --hot-cold-split                                           - Enable hot-cold splitting pass
+  --hwasan-percentile-cutoff-hot=<int>                       - Hot percentile cuttoff.
+  --hwasan-random-rate=<number>                              - Probability value in the range [0.0, 1.0] to keep instrumentation of a function.
+  --import-all-index                                         - Import all external functions in index.
+  --instcombine-code-sinking                                 - Enable code sinking
+  --instcombine-guard-widening-window=<uint>                 - How wide an instruction window to bypass looking for another guard
+  --instcombine-max-num-phis=<uint>                          - Maximum number phis to handle in intptr/ptrint folding
+  --instcombine-max-sink-users=<uint>                        - Maximum number of undroppable users for instruction sinking
+  --instcombine-maxarray-size=<uint>                         - Maximum array size considered when doing a combine
+  --instcombine-negator-enabled                              - Should we attempt to sink negations?
+  --instcombine-negator-max-depth=<uint>                     - What is the maximal lookup depth when trying to check for viability of negation sinking.
+  --instrprof-atomic-counter-update-all                      - Make all profile counter updates atomic (for testing only)
+  --internalize-public-api-file=<filename>                   - A file containing list of symbol names to preserve
+  --internalize-public-api-list=<list>                       - A list of symbol names to preserve
+  --iterative-counter-promotion                              - Allow counter promotion across the whole loop nest.
+  --lint-abort-on-error                                      - In the Lint pass, abort on errors.
+  --log=<value>                                              - Verbosity of log messages written to stderr
+    =error                                                   -   Error messages only
+    =info                                                    -   High level execution tracing
+    =verbose                                                 -   Low level details
+  --lower-allow-check-percentile-cutoff-hot=<int>            - Hot percentile cuttoff.
+  --lower-allow-check-random-rate=<number>                   - Probability value in the range [0.0, 1.0] of unconditional pseudo-random checks.
+  --matrix-default-layout=<value>                            - Sets the default matrix layout
+    =column-major                                            -   Use column-major layout
+    =row-major                                               -   Use row-major layout
+  --matrix-print-after-transpose-opt                         - 
+  --max-counter-promotions=<int>                             - Max number of allowed counter promotions
+  --max-counter-promotions-per-loop=<uint>                   - Max number counter promotions per loop to avoid increasing register pressure too much
+  --mir-strip-debugify-only                                  - Should mir-strip-debug only strip debug info from debugified modules by default
+  --misexpect-tolerance=<uint>                               - Prevents emitting diagnostics when profile counts are within N% of the threshold..
+  --mojo-test                                                - This flags sets up the server in test mode. It effectively sets the options `-input-style=delimited -pretty -log=verbose`, and indicates the LSP server to run in single-thread mode and to ensure that all the requests are resolved once the shutdown packet is received, to avoid early invalidations.
+  --no-discriminators                                        - Disable generation of discriminator information.
+  --object-size-offset-visitor-max-visit-instructions=<uint> - Maximum number of instructions for ObjectSizeOffsetVisitor to look at
+  --pgo-block-coverage                                       - Use this option to enable basic block coverage instrumentation
+  --pgo-temporal-instrumentation                             - Use this option to enable temporal instrumentation
+  --pgo-view-block-coverage-graph                            - Create a dot file of CFGs with block coverage inference information
+  --poison-checking-function-local                           - Check that returns are non-poison (for testing)
+  --pretty                                                   - Pretty-print JSON output
+  --print-pipeline-passes                                    - Print a '-passes' compatible string describing the pipeline (best-effort only).
+  --profile-correlate=<value>                                - Use debug info or binary file to correlate profiles.
+    =<empty>                                                 -   No profile correlation
+    =debug-info                                              -   Use debug info to correlate
+    =binary                                                  -   Use binary to correlate
+  --runtime-counter-relocation                               - Enable relocating counters at runtime.
+  --safepoint-ir-verifier-print-only                         - 
+  --sample-profile-check-record-coverage=<N>                 - Emit a warning if less than N% of records in the input profile are matched to the IR.
+  --sample-profile-check-sample-coverage=<N>                 - Emit a warning if less than N% of samples in the input profile are matched to the IR.
+  --sample-profile-max-propagate-iterations=<uint>           - Maximum number of iterations to go through when propagating sample block/edge weights through the CFG.
+  --sampled-instr-burst-duration=<uint>                      - Set the profile instrumentation burst duration, which can range from 1 to the value of 'sampled-instr-period' (0 is invalid). This number of samples will be recorded for each 'sampled-instr-period' count update. Setting to 1 enables simple sampling, in which case it is recommended to set 'sampled-instr-period' to a prime number.
+  --sampled-instr-period=<uint>                              - Set the profile instrumentation sample period. A sample period of 0 is invalid. For each sample period, a fixed number of consecutive samples will be recorded. The number is controlled by 'sampled-instr-burst-duration' flag. The default sample period of 65536 is optimized for generating efficient code that leverages unsigned short integer wrapping in overflow, but this is disabled under simple sampling (burst duration = 1).
+  --sampled-instrumentation                                  - Do PGO instrumentation sampling
+  --skip-ret-exit-block                                      - Suppress counter promotion if exit blocks contain ret.
+  --speculative-counter-promotion-max-exiting=<uint>         - The max number of exiting blocks of a loop to allow  speculative counter promotion
+  --speculative-counter-promotion-to-loop                    - When the option is false, if the target block is in a loop, the promotion will be disallowed unless the promoted counter  update can be further/iteratively promoted into an acyclic  region.
+  --summary-file=<string>                                    - The summary file to use for function importing.
+  --type-based-intrinsic-cost                                - Calculate intrinsics cost based only on argument types
+  --verify-region-info                                       - Verify region info (time consuming)
+  --vp-counters-per-site=<number>                            - The average number of profile counters allocated per value profiling site.
+  --vp-static-alloc                                          - Do static counter allocation for value profiler
+  --wholeprogramdevirt-cutoff=<uint>                         - Max number of devirtualizations for devirt module pass
+  --write-experimental-debuginfo                             - Write debug info in the new non-intrinsic format. Has no effect if --preserve-input-debuginfo-format=true.
+
+Generic Options:
+
+  --help                                                     - Display available options (--help-hidden for more)
+  --help-list                                                - Display list of available options (--help-list-hidden for more)
+  --version                                                  - Display the version of this program
