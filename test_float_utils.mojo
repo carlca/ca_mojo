@@ -1,5 +1,6 @@
-from teetest import TeeTest
-from ca_lib.float_utils import fu
+from ca_lib.teetest.tee_test import TeeTest
+from ca_lib.float_utils.floatutils import fu
+from collections import list
 from builtin._location import __call_location
 
 @always_inline
