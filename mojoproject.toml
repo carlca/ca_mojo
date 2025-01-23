@@ -15,5 +15,4 @@ tests = "magic run t1 && magic run t2 && magic run t3 && magic run t4 && magic r
 default = "magic run tests"
 
 [dependencies]
-# max = ">=25.1.0.dev2024122805,<26"
 max = "*"
