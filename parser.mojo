@@ -3,7 +3,7 @@ from bitwig.preset_parser import presetparser
 
 fn main() raises:
   var args = sysutils.get_params()
-  if args.size == 0:
+  if len(args) == 0:
     print("Usage: mojo preset_parser <preset file>")
     return
   var filename = sysutils.get_app_path() + args[0]

@@ -13,7 +13,7 @@ fn test_string_split() raises -> (Bool, String):
 @always_inline
 fn test_string_split_empty() raises -> (Bool, String):
   var s = ""
-  return su.split(s, ",").size == 0,
+  return len(su.split(s, ",")) == 0,
     String(__call_location())
 
 fn main() raises:

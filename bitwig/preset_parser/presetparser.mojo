@@ -81,7 +81,7 @@ struct PresetParser:
 
   fn read_int_chunk(self, f: FileHandle, mut pos: Int) raises -> ReadResult:
     var new_read = self.read_from_file(f, pos, 4, True)
-    if new_read.data.size == 0:
+    if len(new_read.data) == 0:
       return ReadResult(0, 0, List[UInt8]())
     pos = new_read.pos
     var size: UInt32 = 0
