@@ -1,10 +1,13 @@
 from builtin.io import _printf as printf
 
 @value
-struct ReadResult(Stringable):
+struct ReadResult(Boolable, Stringable):
   var pos: Int
   var size: Int
   var data: List[Byte]
+
+  fn __bool__(self) -> Bool:
+    return self.size > 0
 
   fn __str__(self) -> String:
     var data = String()
