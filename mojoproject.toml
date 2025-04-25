@@ -3,7 +3,7 @@ authors = ["carlca <carl.caulkett@gmail.com>"]
 channels = ["conda-forge", "https://conda.modular.com/max-nightly"]
 description = "Add a short description here"
 name = "ca_mojo"
-platforms = ["osx-arm64"]
+platforms = ["osx-arm64", "linux-64"]
 
 [tasks]
 t1 = "mojo test_float_utils.mojo"
