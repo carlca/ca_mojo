@@ -1,17 +1,20 @@
 from builtin.io import _printf as printf
 
 @value
-struct ReadResult(StringableRaising):
+struct ReadResult(Stringable):
   var pos: Int
   var size: Int
-  var data: List[UInt8]
+  var data: List[Byte]
 
-  fn __str__(self) raises -> String:
-    var result = "pos: " + String(self.pos) + " size: " + String(self.size) + " data: ["
-    for i in range(0, self.data.__len__()):
-      result += String(self.data[i]) + " "
-    result += "]"
-    return result
+  fn __str__(self) -> String:
+    var data = String()
+    for b in self.data:
+      data.write(b[], " ")
+    return String(
+      "pos: ", self.pos, ", ",
+      "size: ", self.size, ", ",
+      "data: [", data[:-1] if data else "", "]"
+    )
 
 struct PresetParser:
   var debug: Bool
