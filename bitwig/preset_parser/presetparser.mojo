@@ -49,7 +49,7 @@ struct PresetParser:
     var size = result.size
     var data = result.data
     if size == 0: return ReadResult(0, 0, Bytes())
-    printf["[%s] "](self.vec_to_string(data))
+    print(String("[{0}] ").format(self.vec_to_string(data)), end="")
 
     skips = self.get_skip_size(f, pos)
     if self.debug:
@@ -58,7 +58,8 @@ struct PresetParser:
     pos += skips
 
     result = self.read_next_size_and_chunk(f, pos)
-    printf["%s\n"](self.vec_to_string(result.data))
+    print(String("{0}").format(self.vec_to_string(result.data)))
+
     return ReadResult(result.pos, result.size, Bytes())
 
   fn get_skip_size(self, f: FileHandle, mut pos: Int) raises -> Int:
