@@ -1,5 +1,3 @@
-from builtin.io import _printf as printf
-
 alias Bytes = List[Byte]
 
 @value
@@ -71,15 +69,17 @@ struct PresetParser:
 
   fn get_skip_size_debug(self, f: FileHandle, mut pos: Int) raises:
     var bytes = self.read_from_file(f, pos, 32, True).data
-    printf["\n"]()
+    print("")
     for b in range(len(bytes)):
-      printf["%02x "](bytes[b])
+      print(String("{:02x} ").format(bytes[b]), end="")
+      # printf["%02x "](bytes[b])
     print()
     for b in range(len(bytes)):
       if bytes[b] >= 0x31:
-        printf[".%c."](bytes[b])
+        print(String("{.%c.} ").format(bytes[b]), end="")
+        # printf[".%c."](bytes[b])
       else:
-        printf["   "]()
+        print("   ")
     print()
 
   fn read_next_size_and_chunk(self, f: FileHandle, mut pos: Int) raises -> ReadResult:
@@ -99,9 +99,9 @@ struct PresetParser:
     return ReadResult(pos, Int(size), Bytes())
 
   @staticmethod
-  fn print_byte_vector(data: Bytes):
+  fn print_byte_vector(data: Bytes) raises:
     for i in range(len(data)):
-      printf["%02x "](data[i])
+      print(String("%02x ").format(data[i]), end="")
     print()
 
   @staticmethod
