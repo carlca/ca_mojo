@@ -12,7 +12,7 @@ struct ReadResult(Boolable, Stringable):
   fn __str__(self) -> String:
     var data = String()
     for b in self.data:
-      data.write(b[], " ")
+      data.write(b, " ")
     return String(
       "pos: ", self.pos, ", ",
       "size: ", self.size, ", ",
