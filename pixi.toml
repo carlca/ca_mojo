@@ -11,8 +11,8 @@ t2 = "mojo test_matrix.mojo"
 t3 = "mojo test_string_utils.mojo"
 t4 = "mojo test_tee_test.mojo"
 t5 = "mojo parser.mojo Diffusion.bwpreset"
-tests = "magic run t1 && magic run t2 && magic run t3 && magic run t4 && magic run t5"
-default = "magic run tests"
+tests = "pixi run t1 && pixi run t2 && pixi run t3 && pixi run t4 && pixi run t5"
+default = "pixi run tests"
 
 [dependencies]
 max = "*"
