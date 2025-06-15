@@ -1,7 +1,8 @@
 alias Bytes = List[Byte]
 
-@value
-struct ReadResult(Boolable, Stringable):
+# @value
+@fieldwise_init
+struct ReadResult(Boolable, Stringable, Copyable, Movable):
    var pos: Int
    var size: Int
    var data: Bytes
