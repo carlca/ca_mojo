@@ -1,0 +1,10 @@
+Thread   Start(us)  B/E     Dur(us)  Name/Detail
+------  ----------  ---  ----------  ------------------------------
+   259      683676  BEG        2403  LowerSemanticCF
+   259      686079  END        2403  LowerSemanticCF
+   259      686080  BEG       20894  CheckLifetimes
+   259      706975  END       20894  CheckLifetimes
+   259      706976  BEG        1391  AnnotateKernels
+   259      708367  END        1391  AnnotateKernels
+   259      708368  BEG         281  VerifyKernels
+   259      708650  END         281  VerifyKernels
