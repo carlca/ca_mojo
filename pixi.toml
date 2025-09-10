@@ -6,12 +6,11 @@ name = "ca_mojo"
 platforms = ["osx-arm64", "linux-64"]
 
 [tasks]
-t1 = "mojo test_float_utils.mojo"
-t2 = "mojo test_matrix.mojo"
-t3 = "mojo test_string_utils.mojo"
-t4 = "mojo test_tee_test.mojo"
-t5 = "mojo parser.mojo Diffusion.bwpreset"
-tests = "pixi run t1 && pixi run t2 && pixi run t3 && pixi run t4 && pixi run t5"
+t1 = { cmd = "mojo test_float_utils.mojo", env = { MODULAR_CRASH_REPORTING = "0" } }
+t2 = { cmd = "mojo test_matrix.mojo", env = { MODULAR_CRASH_REPORTING = "0" } }
+t3 = { cmd = "mojo test_string_utils.mojo", env = { MODULAR_CRASH_REPORTING = "0" } }
+t4 = { cmd = "mojo test_tee_test.mojo", env = { MODULAR_CRASH_REPORTING = "0" } }
+tests = "pixi run t1 && pixi run t2 && pixi run t3 && pixi run t4"
 default = "pixi run tests"
 
 [dependencies]

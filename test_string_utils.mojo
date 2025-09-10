@@ -1,5 +1,5 @@
-from ca_lib.teetest.tee_test import TeeTest
-from ca_lib.string_utils.stringutils import su
+from teetest.tee_test import TeeTest
+from string_utils.stringutils import su
 from collections import list
 from builtin._location import __call_location
 

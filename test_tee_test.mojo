@@ -1,4 +1,4 @@
-from ca_lib.teetest.tee_test import TeeTest
+from teetest.tee_test import TeeTest
 from builtin._location import __call_location
 
 @always_inline

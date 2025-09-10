@@ -1,0 +1,27 @@
+[project]
+name = "ca_mojo"
+version = "0.1.0"
+description = "CA Mojo Project"
+authors = ["Carl Caulkett"]
+channels = ["conda-forge", "https://conda.modular.com/max"]
+platforms = ["osx-arm64", "linux-64", "linux-aarch64"]
+
+[dependencies]
+max = ">=24.5.0"
+
+[tasks]
+test = "mojo test -I ."
+build = "mojo build -I ."
+
+[tool.mojo]
+# Include the current directory in the module search path
+include_dirs = ["."]
+
+[tool.mojo.format]
+line-length = 100
+indent-width = 3
+
+[tool.mojo.lsp]
+# Enable better diagnostics
+enable_diagnostics = true
+include_dirs = ["."]
