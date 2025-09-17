@@ -2,9 +2,7 @@
 .pixi
 *.egg-info
 
-# magic environments
-.magic
-magic.lock
+
 
 # editor
 .idea/

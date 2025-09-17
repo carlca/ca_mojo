@@ -1,6 +1,7 @@
 [project]
 authors = ["carlca <carl.caulkett@gmail.com>"]
-channels = ["conda-forge", "https://conda.modular.com/max-nightly"]
+# channels = ["conda-forge", "https://conda.modular.com/max-nightly"]
+channels = ["conda-forge", "https://conda.modular.com/max-nightly/"]
 description = "Add a short description here"
 name = "ca_mojo"
 platforms = ["osx-arm64", "linux-64"]
@@ -10,10 +11,17 @@ t1 = { cmd = "mojo test_float_utils.mojo", env = { MODULAR_CRASH_REPORTING = "0"
 t2 = { cmd = "mojo test_matrix.mojo", env = { MODULAR_CRASH_REPORTING = "0" } }
 t3 = { cmd = "mojo test_string_utils.mojo", env = { MODULAR_CRASH_REPORTING = "0" } }
 t4 = { cmd = "mojo test_tee_test.mojo", env = { MODULAR_CRASH_REPORTING = "0" } }
+
 tests = "pixi run t1 && pixi run t2 && pixi run t3 && pixi run t4"
 default = "pixi run tests"
 
 [dependencies]
-max = "*"
-# modular = ">=25.6.0.dev2025090205,<26"
-mojo = ">=0.25.6.0.dev2025091105,<0.26.0.0.0"
+# max = "*"
+
+# Old version - working :)
+# modular = "==25.6.0.dev2025091105, <26"
+
+# New version - duff :(
+# mojo = ">=0.25.6.0.dev2025091105,<0.26.0.0"
+# mojo = ">=0.25.6.0.dev2025091105,<1"
+mojo = ">=0.25.6.0.dev2025091705,<0.26.0.0"
