@@ -99,7 +99,8 @@ struct Matrix(ImplicitlyCopyable):
       self.total_items = other.total_items
       self.debugging = other.debugging
       self.data = DataType.alloc(self.total_items)
-      memcpy(self.data.address, other.data.address, self.total_items)
+      # memcpy(self.data.address, other.data.address, self.total_items)
+      memcpy(dest=self.data.address, src=other.data.address, count=self.total_items)
 
    fn __eq__ (read self, other: Matrix) -> Bool:
       for i in range(self.rows):

@@ -15,4 +15,6 @@ fn test_str_to_float_to_rounded_string() raises -> (Bool, String):
 fn main() raises:
    TeeTest(
       test_str_to_float_to_rounded_string,
+        test_str_to_float_to_rounded_string,
+        test_str_to_float_to_rounded_string,
    ).run_tests(False)

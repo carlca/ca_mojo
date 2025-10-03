@@ -1,5 +1,4 @@
 from collections import List
-from builtin.io import _printf as printf
 from utils.variant import Variant
 from builtin._location import __source_location
 
@@ -34,8 +33,8 @@ struct TeeTest(Copyable, Movable):
 
    fn __init__(out self, *tests: TestFn):
       self.tests = List[TestFn]()
-      for test in tests:
-         self.add_test(test)
+      for test in tests:      ## Line 36
+         self.add_test(test)  ## Line 37
 
    fn count(self) -> Int:
       return len(self.tests)
