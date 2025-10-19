@@ -2,19 +2,19 @@ from teetest.tee_test import TeeTest
 from builtin._location import __call_location
 
 @always_inline
-fn test1() raises -> (Bool, String):
+fn test1() raises -> Tuple[Bool, String]:
    return True, String(__call_location())
 
 @always_inline
-fn test2() raises -> (Bool, String):
+fn test2() raises -> Tuple[Bool, String]:
    return True, String(__call_location())
 
 @always_inline
-fn test3() raises -> (Bool, String):
+fn test3() raises -> Tuple[Bool, String]:
    return True, String(__call_location())
 
 @always_inline
-fn test4() raises -> (Bool, String):
+fn test4() raises -> Tuple[Bool, String]:
    return True, String(__call_location())
 
 fn main() raises:

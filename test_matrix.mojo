@@ -4,14 +4,14 @@ from collections import list
 from builtin._location import __call_location
 
 @always_inline
-fn test_matrix_init() raises -> (Bool, String):
+fn test_matrix_init() raises -> Tuple[Bool, String]:
    var m1 = Matrix("[[1.1, 1.1, 1.1], [2.2, 2.2, 2.2], [3.3, 3.3, 3.3], [4.4, 4.4, 4.4]]")
    var m2 = Matrix("[[1.1, 1.1, 1.1], [1.1, 1.1, 1.1], [1.1, 1.1, 1.1], [1.1, 1.1, 1.1]]")
    return m1.cols == 3 and m1.rows == 4 and m2.cols == 3 and m2.rows == 4,
       String(__call_location())
 
 @always_inline
-fn test_matrix_add() raises -> (Bool, String):
+fn test_matrix_add() raises -> Tuple[Bool, String]:
    var m1 = Matrix("[[1.1, 1.1, 1.1], [2.2, 2.2, 2.2], [3.3, 3.3, 3.3], [4.4, 4.4, 4.4]]")
    var m2 = Matrix("[[1.1, 1.1, 1.1], [1.1, 1.1, 1.1], [1.1, 1.1, 1.1], [1.1, 1.1, 1.1]]")
    var m3 = m1 + m2
