@@ -1,6 +1,5 @@
-[project]
+[workspace]
 authors = ["carlca <carl.caulkett@gmail.com>"]
-# channels = ["conda-forge", "https://conda.modular.com/max-nightly"]
 channels = ["conda-forge", "https://conda.modular.com/max-nightly/"]
 description = "Add a short description here"
 name = "ca_mojo"
@@ -16,12 +15,5 @@ tests = "pixi run t1 && pixi run t2 && pixi run t3 && pixi run t4"
 default = "pixi run tests"
 
 [dependencies]
-# max = "*"
-
-# Old version - working :)
-# modular = "==25.6.0.dev2025091105, <26"
-
-# New version - duff :(
-# mojo = ">=0.25.6.0.dev2025091105,<0.26.0.0"
-# mojo = ">=0.25.6.0.dev2025091105,<1"
-mojo = ">=0.25.6.0.dev2025091705,<0.26.0.0"
+max = "*"
+modular = ">=25.6.1.0,<27"
