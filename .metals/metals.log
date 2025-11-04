@@ -10,3 +10,19 @@ INFO: Unsupported notification method: $/setTrace
 2025.10.05 23:43:40 INFO  Shutting down server
 2025.10.05 23:43:40 INFO  shutting down Metals
 2025.10.05 23:43:40 INFO  Exiting server
+2025.11.02 22:04:39 INFO  Started: Metals version 1.6.3 in folders '/Users/carlcaulkett/Code/Mojo/ca_mojo' for client Visual Studio Code 1.105.1.
+2025.11.02 22:04:40 INFO  Upgraded H2 database.
+2025.11.02 22:04:40 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2025.11.02 22:04:40 WARN  no build tool detected in workspace '/Users/carlcaulkett/Code/Mojo/ca_mojo'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+2025.11.02 22:04:41 WARN  Build server is not auto-connectable.
+2025.11.02 22:43:48 INFO  Shutting down server
+2025.11.02 22:43:48 INFO  shutting down Metals
+2025.11.02 22:43:48 INFO  Exiting server
+2025.11.04 11:50:06 INFO  Started: Metals version 1.6.3 in folders '/Users/carlcaulkett/Code/Mojo/ca_mojo' for client Visual Studio Code 1.105.1.
+Nov 04, 2025 11:50:07 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+2025.11.04 11:50:10 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2025.11.04 11:50:10 WARN  no build tool detected in workspace '/Users/carlcaulkett/Code/Mojo/ca_mojo'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+2025.11.04 11:50:11 WARN  Build server is not auto-connectable.
+Nov 04, 2025 12:40:42 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
