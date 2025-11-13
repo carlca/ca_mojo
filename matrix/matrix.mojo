@@ -1,10 +1,10 @@
 from collections import List
-from memory import UnsafePointer, memcpy
+from memory import LegacyUnsafePointer, memcpy
 
 from string_utils import su
 from float_utils import fu
 
-alias DataType = UnsafePointer[Scalar[DType.float64]]
+alias DataType = LegacyUnsafePointer[Scalar[DType.float64]]
 
 struct Matrix(ImplicitlyCopyable):
    '''Simple 2d matrix that uses Float64.'''
@@ -100,7 +100,8 @@ struct Matrix(ImplicitlyCopyable):
       self.debugging = other.debugging
       self.data = DataType.alloc(self.total_items)
       # memcpy(self.data.address, other.data.address, self.total_items)
-      memcpy(dest=self.data.address, src=other.data.address, count=self.total_items)
+      # memcpy(dest=self.data.address, src=other.data.address, count=self.total_items)
+      memcpy[Float64](dest=self.data, src=other.data, count=self.total_items)
 
    fn __eq__ (read self, other: Matrix) -> Bool:
       for i in range(self.rows):
