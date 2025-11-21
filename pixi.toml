@@ -5,6 +5,7 @@ description = "Add a short description here"
 name = "ca_mojo"
 platforms = ["osx-arm64", "linux-64"]
 
+
 [tasks]
 t1 = { cmd = "mojo test_float_utils.mojo", env = { MODULAR_CRASH_REPORTING = "0" } }
 t2 = { cmd = "mojo test_matrix.mojo", env = { MODULAR_CRASH_REPORTING = "0" } }

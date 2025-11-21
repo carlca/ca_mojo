@@ -42,7 +42,7 @@ struct su(Movable):
          start += 1
       while end > start and s[end - 1] == trailing:
          end -= 1
-      return s[start:end]
+      return String(s[start:end])
 
    @staticmethod
    fn find(s: String, sub: String) -> Int:
@@ -81,8 +81,9 @@ struct su(Movable):
       var result: List[String] = List[String]()
       var index: Int = su.find(s1, sep, 0)
       while index >= 0:
-         result.append(s1[0:index])
-         s1 = s1[index + len(sep):len(s1)]
+         result.append(String(s1[0:index]))
+         # s1 = s1[index + len(sep):len(s1)]
+         s1 = String(s1[index + len(sep):len(s1)])         
          index = su.find(s1, sep, 0)
       if len(s1) > 0:
          result.append(s1)
