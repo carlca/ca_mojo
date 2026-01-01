@@ -2,7 +2,7 @@ from collections import List
 from utils.variant import Variant
 from builtin._location import __source_location
 
-alias TestFn = fn() raises -> Tuple[Bool, String]
+comptime TestFn = fn() raises -> Tuple[Bool, String]
 
 @fieldwise_init
 struct Passed(Stringable, Copyable, Movable):
@@ -25,7 +25,7 @@ struct Raised(Stringable, Copyable, Movable):
          return "(null): raised an exception!"
       return "(null): raised an exception with message: " + message
 
-alias TestResult = Variant[Passed, Failed, Raised]
+comptime TestResult = Variant[Passed, Failed, Raised]
 
 @fieldwise_init
 struct TeeTest(Copyable, Movable):
