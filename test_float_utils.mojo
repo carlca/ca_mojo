@@ -1,7 +1,7 @@
 from teetest.tee_test import TeeTest
 from float_utils.floatutils import fu
 from collections import list
-from builtin._location import __call_location
+from builtin._location import __source_location, _SourceLocation
 
 @always_inline
 fn test_str_to_float_to_rounded_string() raises -> Tuple[Bool, String]:
@@ -10,7 +10,7 @@ fn test_str_to_float_to_rounded_string() raises -> Tuple[Bool, String]:
    var assert1 = fu.format_float(pi, 5) == "3.14159"
    var assert2 = fu.format_float(pi, 6) == "3.141593"
    var assert3 = fu.format_float(pi, 7) == "3.1415926"
-   return assert1 and assert2 and assert3, String(__call_location())
+   return assert1 and assert2 and assert3, String(__source_location())
 
 fn main() raises:
    TeeTest(

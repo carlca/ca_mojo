@@ -74,9 +74,16 @@ struct TeeTest(Copyable, Movable):
          with open(file_name, "r") as f:
             var s = f.read()
             var code_lines = s.split("\n")
-            var line_str = code_lines[line - 1].removesuffix(",")
-            if i == 0: print("")
-            var str = "Test " + String(i + 1) + " - " + line_str.lstrip() + ":" + success
+
+            # Find the last line that begins with "fn test" before index: line
+            var fn_name_line: String = ""
+            for j in range(line - 1, -1, -1):
+               if code_lines[j].strip().startswith("fn test"):
+                  fn_name_line = String(code_lines[j])
+                  break
+
+            var fn_name = fn_name_line[:fn_name_line.find("()")]
+            var str = "Test " + String(i + 1) + ": " + fn_name + ": " + success
 
             if res.isa[Passed]():
                succ_count += 1

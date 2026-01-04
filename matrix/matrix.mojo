@@ -4,11 +4,11 @@ from memory import LegacyUnsafePointer, memcpy
 from string_utils import su
 from float_utils import fu
 
-alias DataType = LegacyUnsafePointer[Scalar[DType.float64]]
+comptime DataType = LegacyUnsafePointer[mut=True, Scalar[DType.float64]]
 
 struct Matrix(ImplicitlyCopyable):
    '''Simple 2d matrix that uses Float64.'''
-   alias __copyinit__is_trivial = False
+   comptime __copyinit__is_trivial = False
 
    var rows: Int
    var cols: Int
