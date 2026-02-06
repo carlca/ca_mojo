@@ -40,10 +40,10 @@ struct fu(Copyable, Movable):
       # get the integer value as a string
       var i_str_full = String(i)
       # grab the last digit to be used to adjust/leave the previous digit
-      var last_digit = i_str_full[len(i_str_full)-1]
+      var last_digit = i_str_full[byte=len(i_str_full) - 1]
       # grab the last but one digit in the integer string
       var prev_digit_pos = len(i_str_full) - 1
-      var prev_digit = String(i_str_full[prev_digit_pos - 1])
+      var prev_digit = String(i_str_full[byte=prev_digit_pos - 1])
       # if last digit is >= to 5 then we...
       if ord(last_digit) >= ord("5"):
          # ... increment it by 1

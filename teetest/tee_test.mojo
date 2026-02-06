@@ -1,6 +1,7 @@
 from collections import List
 from utils.variant import Variant
-from builtin._location import __source_location
+# from builtin._location import __source_location
+from reflection import source_location
 
 comptime TestFn = fn() raises -> Tuple[Bool, String]
 
@@ -93,8 +94,8 @@ struct TeeTest(Copyable, Movable):
                print(str)
       print("\n--------------------------------------------")
       print(" Total number of tests run: ", self.count())
-      print("      Number of tests passed: ", succ_count)
-      print("      Number of tests failed: ", fail_count)
+      print("    Number of tests passed: ", succ_count)
+      print("    Number of tests failed: ", fail_count)
       print("--------------------------------------------")
 
    @staticmethod

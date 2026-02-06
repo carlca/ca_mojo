@@ -38,9 +38,9 @@ struct su(Movable):
    fn trim(s: String, leading: String, trailing: String) -> String:
       var start = 0
       var end = len(s)
-      while start < end and s[start] == leading:
+      while start < end and s[byte=start] == leading:
          start += 1
-      while end > start and s[end - 1] == trailing:
+      while end > start and s[byte=end - 1] == trailing:
          end -= 1
       return String(s[start:end])
 
@@ -55,7 +55,7 @@ struct su(Movable):
       for i in range(start, len - sub_len + 1):
          var is_match = True
          for j in range(sub_len):
-            if s[i + j] != sub[j]:
+            if s[byte=i + j] != sub[byte=j]:   
                is_match = False
                break
          if is_match:
@@ -94,7 +94,7 @@ struct su(Movable):
       var result = String()
       if char.__len__() == 1:
          for i in range(len(s)):
-            var c = s[i]
+            var c = s[byte=i]
             if c != char:
                result += c
       return result
@@ -104,7 +104,7 @@ struct su(Movable):
       var count = 0
       if char.__len__() == 1:
          for i in range(len(s)):
-            if s[i] == char:
+            if s[byte=i] == char:
                count += 1
       return count
 
