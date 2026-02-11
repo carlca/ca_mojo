@@ -18,9 +18,9 @@ struct fu(Copyable, Movable):
             denom_str += "0"
          var denominator = atol("1" + denom_str)
          # school-level maths here :)
-         var frac = numerator / denominator
+         var frac = Float64(numerator) / Float64(denominator)
          # return the number as a Float64
-         var result: Float64 = atol(int_str) + frac
+         var result = Float64(atol(int_str)) + frac
          return result
       except:
          print("error in str_to_float")
@@ -36,7 +36,7 @@ struct fu(Copyable, Movable):
       var mult = 10 ** (dec_places + 1)
       # note the use of an extra power of 10 to get the rounding digit
       # use the multiplier build the integer value of the input number
-      var i = Float64(f * mult).cast[DType.int32]()
+      var i = Float64(f * Float64(mult)).cast[DType.int32]()
       # get the integer value as a string
       var i_str_full = String(i)
       # grab the last digit to be used to adjust/leave the previous digit
