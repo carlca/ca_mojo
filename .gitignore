@@ -8,3 +8,6 @@ pixi.lock
 .idea/
 .vscode/
 .zed/
+# pixi environments
+.pixi/*
+!.pixi/config.toml

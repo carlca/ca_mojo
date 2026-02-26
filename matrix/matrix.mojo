@@ -1,4 +1,3 @@
-from collections import List
 from memory import LegacyUnsafePointer, memcpy
 
 from string_utils import su
@@ -16,7 +15,7 @@ struct Matrix(ImplicitlyCopyable):
    var data: DataType
    var debugging: Bool
 
-   fn __init__(out self, rows: Int, cols: Int):
+   fn __init__(out self, *, rows: Int, cols: Int):
       self.debugging = False
       self.rows = rows if rows > 0 else 1
       self.cols = cols if cols > 0 else 1
@@ -25,7 +24,7 @@ struct Matrix(ImplicitlyCopyable):
       for i in range(self.total_items):
          DataType.store(self.data, i, 0.0)
 
-   fn __init__(out self, content: String) raises:
+   fn __init__(out self, *, content: String) raises:
       self.debugging = True
       self.rows = 0
       self.cols = 0
@@ -60,6 +59,14 @@ struct Matrix(ImplicitlyCopyable):
       except:
          None
 
+   fn __init__(out self, *, copy: Matrix):
+      self.rows = copy.rows
+      self.cols = copy.cols
+      self.total_items = copy.total_items
+      self.debugging = copy.debugging
+      self.data = DataType.alloc(self.total_items)
+      memcpy[Float64](dest=self.data, src=copy.data, count=self.total_items)
+
    fn dbg(read self, msg: String, value: String) -> None:
       if self.debugging:
          print(msg, value)
@@ -88,21 +95,6 @@ struct Matrix(ImplicitlyCopyable):
    fn __len__(read self) -> Int:
       return self.total_items
 
-   # fn copy(self) -> Self:
-   #    var result = Matrix(self.rows, self.cols)
-   #    result.__copyinit__(self)
-   #    return result
-
-   fn __copyinit__(out self, other: Matrix):
-      self.rows = other.rows
-      self.cols = other.cols
-      self.total_items = other.total_items
-      self.debugging = other.debugging
-      self.data = DataType.alloc(self.total_items)
-      # memcpy(self.data.address, other.data.address, self.total_items)
-      # memcpy(dest=self.data.address, src=other.data.address, count=self.total_items)
-      memcpy[Float64](dest=self.data, src=other.data, count=self.total_items)
-
    fn __eq__ (read self, other: Matrix) -> Bool:
       for i in range(self.rows):
          for j in range(self.cols):
@@ -116,8 +108,8 @@ struct Matrix(ImplicitlyCopyable):
    fn __add__ (read self, other: Matrix) -> Matrix:
       if self.rows != other.rows or self.cols != other.cols:
          print("Error: Matrix dimensions must match")
-         return Matrix(1, 1)
-      var result = Matrix(self.rows, self.cols)
+         return Matrix(rows=1, cols=1)
+      var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
             result[i, j] = self[i, j] + other[i, j]
@@ -143,7 +135,7 @@ struct Matrix(ImplicitlyCopyable):
       if self.cols != other.rows:
          print("Error: Matrix dimensions must match")
          return Matrix(1, 1)
-      var result = Matrix(self.rows, other.cols)
+      var result = Matrix(rows=self.rows, cols=other.cols)
       for i in range(self.rows):
          for j in range(other.cols):
             for k in range(self.cols):
@@ -153,15 +145,15 @@ struct Matrix(ImplicitlyCopyable):
    fn __truediv__ (read self, other: Matrix) -> Matrix:
       if self.rows != other.rows or self.cols != other.cols:
          print("Error: Matrix dimensions must match")
-         return Matrix(1, 1)
-      var result = Matrix(self.rows, self.cols)
+         return Matrix(rows=1, cols=1)
+      var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
             result[i, j] = self[i, j] / other[i, j]
       return result
 
    fn __add__ (read self, other: Float64) -> Matrix:
-      var result = Matrix(self.rows, self.cols)
+      var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
             result[i, j] = self[i, j] + other

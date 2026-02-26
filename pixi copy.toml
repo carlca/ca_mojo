@@ -18,4 +18,4 @@ default = "pixi run tests"
 [dependencies]
 max = "*"
 modular = ">=25.6.1.0,<28"
-mojo = ">=0.26.2.0.dev2026022305,<0.27"
+mojo = ">=0.26.2.0.dev2026021605,<0.27"
