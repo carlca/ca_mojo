@@ -6,8 +6,6 @@ by [Modular](https://modular.com).
 The code is written against the latest nightly build of Mojo.
 Use `modular update nightly/mojo` to get the latest version.
 
-Current Mojo version is `mojo 2024.5.2605 (9c328b12)`. 
-
 Features include:
 
 ## `fu` - float utils
