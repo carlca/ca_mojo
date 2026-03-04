@@ -1,7 +1,7 @@
 from teetest.tee_test import TeeTest
 from float_utils.floatutils import fu
-from collections import list
-from reflection import source_location, SourceLocation
+from std.collections import list
+from std.reflection import source_location, SourceLocation
 
 @always_inline
 fn test_str_to_float_to_rounded_string() raises -> Tuple[Bool, String]:

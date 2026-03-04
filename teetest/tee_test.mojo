@@ -1,30 +1,47 @@
-from collections import List
-from utils.variant import Variant
+from std.collections import List
+from std.utils.variant import Variant
 # from builtin._location import __source_location
 from reflection import source_location
 
 comptime TestFn = fn() raises -> Tuple[Bool, String]
 
 @fieldwise_init
-struct Passed(Stringable, Copyable, Movable):
+struct Passed(Writable, Copyable, Movable):
    var name: String
-   fn __str__(self) -> String:
-      return "\"" + self.name + "\": passed!"
+   
+   # fn __str__(self) -> String:
+   #    return "\"" + self.name + "\": passed!"
+
+   fn write_to(self, mut writer: Some[Writer]):
+      writer.write("Passed(", self.name, ")")
 
 @fieldwise_init
-struct Failed(Stringable, Copyable, Movable):
+struct Failed(Writable, Copyable, Movable):
    var name: String
-   fn __str__(self) -> String:
-      return "\"" + self.name + "\": failed!"
+
+   # fn __str__(self) -> String:
+   #    return "\"" + self.name + "\": failed!"
+
+   fn write_to(self, mut writer: Some[Writer]):
+      writer.write("Failed(", self.name, ")")
+
 
 @fieldwise_init
-struct Raised(Stringable, Copyable, Movable):
+struct Raised(Writable, Copyable, Movable):
    var message: String
-   fn __str__(self) -> String:
+
+   # fn __str__(self) -> String:
+   #    var message = self.message
+   #    if not message:
+   #       return "(null): raised an exception!"
+   #    return "(null): raised an exception with message: " + message
+
+   fn write_to(self, mut writer: Some[Writer]):
       var message = self.message
       if not message:
-         return "(null): raised an exception!"
-      return "(null): raised an exception with message: " + message
+         writer.write("Raised an exception")
+      else:
+         writer.write("Raised an exception", message)
 
 comptime TestResult = Variant[Passed, Failed, Raised]
 
