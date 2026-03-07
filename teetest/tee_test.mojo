@@ -1,7 +1,6 @@
 from std.collections import List
 from std.utils.variant import Variant
-# from builtin._location import __source_location
-from reflection import source_location
+from std.reflection import source_location
 
 comptime TestFn = fn() raises -> Tuple[Bool, String]
 
@@ -9,18 +8,12 @@ comptime TestFn = fn() raises -> Tuple[Bool, String]
 struct Passed(Writable, Copyable, Movable):
    var name: String
    
-   # fn __str__(self) -> String:
-   #    return "\"" + self.name + "\": passed!"
-
    fn write_to(self, mut writer: Some[Writer]):
       writer.write("Passed(", self.name, ")")
 
 @fieldwise_init
 struct Failed(Writable, Copyable, Movable):
    var name: String
-
-   # fn __str__(self) -> String:
-   #    return "\"" + self.name + "\": failed!"
 
    fn write_to(self, mut writer: Some[Writer]):
       writer.write("Failed(", self.name, ")")
@@ -29,12 +22,6 @@ struct Failed(Writable, Copyable, Movable):
 @fieldwise_init
 struct Raised(Writable, Copyable, Movable):
    var message: String
-
-   # fn __str__(self) -> String:
-   #    var message = self.message
-   #    if not message:
-   #       return "(null): raised an exception!"
-   #    return "(null): raised an exception with message: " + message
 
    fn write_to(self, mut writer: Some[Writer]):
       var message = self.message
@@ -117,5 +104,9 @@ struct TeeTest(Copyable, Movable):
 
    @staticmethod
    fn unpack_loc(loc: String) raises -> Tuple[String, Int, Int, String]:
-      var parts = loc.split(":")
-      return (String(parts[0][1:]), parts[1].__int__(), parts[2][:-1].__int__(), String(parts[3]))
+      var content = loc[loc.find("(")+1:-1]
+      var parts = content.split(":")
+      var file_name = String(":".join(parts[:-2]))
+      var line = parts[-2].__int__()
+      var col = parts[-1].__int__()
+      return (file_name, line, col, "")

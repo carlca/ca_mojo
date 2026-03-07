@@ -1,5 +1,5 @@
 from teetest.tee_test import TeeTest
-from reflection import source_location, SourceLocation
+from std.reflection import source_location, SourceLocation
 
 @always_inline
 fn test1() raises -> Tuple[Bool, String]:

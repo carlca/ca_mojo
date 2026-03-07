@@ -1,7 +1,7 @@
 from teetest.tee_test import TeeTest
 from string_utils.stringutils import su
-from collections import list
-from reflection import source_location, SourceLocation
+from std.collections import list
+from std.reflection import source_location, SourceLocation
 
 @always_inline
 fn test_string_split() raises -> Tuple[Bool, String]:

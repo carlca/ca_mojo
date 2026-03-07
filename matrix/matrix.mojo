@@ -1,4 +1,4 @@
-from memory import LegacyUnsafePointer, memcpy
+from std.memory import LegacyUnsafePointer, memcpy
 
 from string_utils import su
 from float_utils import fu

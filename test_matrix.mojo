@@ -1,7 +1,7 @@
 from teetest.tee_test import TeeTest
 from matrix import Matrix
-from collections import list
-from reflection import source_location, SourceLocation
+from std.collections import list
+from std.reflection import source_location, SourceLocation
 
 @always_inline
 fn test_matrix_init() raises -> Tuple[Bool, String]:
