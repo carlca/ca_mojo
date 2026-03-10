@@ -1,9 +1,9 @@
-from std.memory import LegacyUnsafePointer, memcpy
+from std.memory.unsafe_pointer import UnsafePointer, memcpy
 
 from string_utils import su
 from float_utils import fu
 
-comptime DataType = LegacyUnsafePointer[mut=True, Scalar[DType.float64]]
+comptime DataType = UnsafePointer[mut=True, Scalar[DType.float64], MutExternalOrigin]
 
 struct Matrix(ImplicitlyCopyable):
    '''Simple 2d matrix that uses Float64.'''
@@ -20,7 +20,7 @@ struct Matrix(ImplicitlyCopyable):
       self.rows = rows if rows > 0 else 1
       self.cols = cols if cols > 0 else 1
       self.total_items = self.rows * self.cols
-      self.data = DataType.alloc(self.total_items)
+      self.data = alloc[Scalar[DType.float64]](self.total_items)
       for i in range(self.total_items):
          DataType.store(self.data, i, 0.0)
 
@@ -29,7 +29,7 @@ struct Matrix(ImplicitlyCopyable):
       self.rows = 0
       self.cols = 0
       self.total_items = 0
-      self.data = DataType.alloc(1)
+      self.data = alloc[Scalar[DType.float64]](1)
       var s = content
       s = su.remove_char(s, " ")
       s = su.trim(s, "[", "]")
@@ -44,11 +44,10 @@ struct Matrix(ImplicitlyCopyable):
                print("Error: Matrix dimensions of `content` must match")
             else:
                # Parse each row of `content` and store it in `self`
-               # self.rows = rows.size
                self.rows = len(rows)
                self.cols = this_count + 1
                self.total_items = self.rows * self.cols
-               self.data = DataType.alloc(self.total_items)
+               self.data = alloc[Scalar[DType.float64]](self.total_items)
                var i = 0
                for row in rows:
                   var cols = su.split(row, ",")
@@ -64,7 +63,7 @@ struct Matrix(ImplicitlyCopyable):
       self.cols = copy.cols
       self.total_items = copy.total_items
       self.debugging = copy.debugging
-      self.data = DataType.alloc(self.total_items)
+      self.data = alloc[Scalar[DType.float64]](self.total_items)
       memcpy[Float64](dest=self.data, src=copy.data, count=self.total_items)
 
    fn dbg(read self, msg: String, value: String) -> None:

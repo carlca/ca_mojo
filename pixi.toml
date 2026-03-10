@@ -16,5 +16,5 @@ tests = "pixi run t1 && pixi run t2 && pixi run t3 && pixi run t4"
 default = "pixi run tests"
 
 [dependencies]
-mojo = ">=0.26.1.0"
+mojo = ">=0.26.2.0.dev2026031005,<0.27"
 

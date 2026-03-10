@@ -1,5 +1,3 @@
-from std.collections import List
-
 @fieldwise_init
 struct su(Movable):
 
