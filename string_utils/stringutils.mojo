@@ -30,7 +30,7 @@ struct su(Movable):
          raise Error("The end index must be greater than or equal to the start index")
       if end - start < len(suffix):
          return False
-      return input_string[end - len(suffix) : end] == suffix
+      return input_string[byte=end - len(suffix):end] == suffix
 
    @staticmethod
    fn trim(s: String, leading: String, trailing: String) -> String:
@@ -40,7 +40,7 @@ struct su(Movable):
          start += 1
       while end > start and s[byte=end - 1] == trailing:
          end -= 1
-      return String(s[start:end])
+      return String(s[byte=start:end])
 
    @staticmethod
    fn find(s: String, sub: String) -> Int:
@@ -66,8 +66,8 @@ struct su(Movable):
       var result = String()
       var index: Int = su.find(s1, sep, 0)
       while index >= 0:
-         result += s1[0:index] + "\n"
-         s1 = s1[index + len(sep):len(s1)]
+         result += s1[byte=0:index] + "\n"
+         s1 = s1[byte=index + len(sep):len(s1)]
          index = su.find(s1, sep, 0)
       if len(s1) > 0:
          result += s1
@@ -79,9 +79,9 @@ struct su(Movable):
       var result: List[String] = List[String]()
       var index: Int = su.find(s1, sep, 0)
       while index >= 0:
-         result.append(String(s1[0:index]))
+         result.append(String(s1[byte=0:index]))
          # s1 = s1[index + len(sep):len(s1)]
-         s1 = String(s1[index + len(sep):len(s1)])         
+         s1 = String(s1[byte=index + len(sep):len(s1)])         
          index = su.find(s1, sep, 0)
       if len(s1) > 0:
          result.append(s1)
@@ -108,12 +108,12 @@ struct su(Movable):
 
    @staticmethod
    fn substr(s: String, start: Int, length: Int) -> String:
-      return s[start:start+length]
+      return String(s[byte=start:start+length])
 
    @staticmethod
    fn substr(s: String, start: Int) -> String:
       var length = len(s) - start
-      return s[start:start+length]
+      return String(s[byte=start:start+length])
 
    @staticmethod
    fn build_string(char: String, length: Int) -> String:

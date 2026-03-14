@@ -87,7 +87,7 @@ struct TeeTest(Copyable, Movable):
                   fn_name_line = String(code_lines[j])
                   break
 
-            var fn_name = fn_name_line[:fn_name_line.find("()")]
+            var fn_name = fn_name_line[byte=:fn_name_line.find("()")]
             var str = "Test " + String(i + 1) + ": " + fn_name + ": " + success
 
             if res.isa[Passed]():
@@ -104,7 +104,7 @@ struct TeeTest(Copyable, Movable):
 
    @staticmethod
    fn unpack_loc(loc: String) raises -> Tuple[String, Int, Int, String]:
-      var content = loc[loc.find("(")+1:-1]
+      var content = loc[byte=loc.find("(")+1:-1]
       var parts = content.split(":")
       var file_name = String(":".join(parts[:-2]))
       var line = parts[-2].__int__()
