@@ -1,4 +1,4 @@
-fn my_function(x: Int):
+def my_function(x: Int):
   var z: Float32
   if x != 0:
     if x == 0:
@@ -7,8 +7,8 @@ fn my_function(x: Int):
       z = foo()
     print(z)
 
-fn foo() -> String:
+def foo() -> String:
   return "hello"
 
-fn main():
+def main():
   my_function(0) 

@@ -2,28 +2,28 @@
 struct su(Movable):
 
    @staticmethod
-   fn __string__mul__(input_string: String, n: Int) -> String:
+   def __string__mul__(input_string: String, n: Int) -> String:
       var result: String = ""
       for _ in range(n):
          result += input_string
       return result
 
    @staticmethod
-   fn rjust(input_string: String, width: Int, fillchar: String = " ") raises -> String:
+   def rjust(input_string: String, width: Int, fillchar: String = " ") raises -> String:
       if len(fillchar) != 1:
          raise Error(" The fill character must be exactly one character long")
       var extra = width - len(input_string)
       return su.__string__mul__(fillchar, extra) + input_string
 
    @staticmethod
-   fn ljust(input_string: String, width: Int, fillchar: String = " ") raises -> String:
+   def ljust(input_string: String, width: Int, fillchar: String = " ") raises -> String:
       if len(fillchar) != 1:
          raise Error(" The fill character must be exactly one character long")
       var extra = width - len(input_string)
       return input_string + su.__string__mul__(fillchar, extra)
 
    @staticmethod
-   fn endswith(input_string: String, suffix: String, start: Int = 0, var end: Int = -1) raises -> Bool:
+   def endswith(input_string: String, suffix: String, start: Int = 0, var end: Int = -1) raises -> Bool:
       if end == -1:
          end = len(input_string)
       if end < start:
@@ -33,7 +33,7 @@ struct su(Movable):
       return input_string[byte=end - len(suffix):end] == suffix
 
    @staticmethod
-   fn trim(s: String, leading: String, trailing: String) -> String:
+   def trim(s: String, leading: String, trailing: String) -> String:
       var start = 0
       var end = len(s)
       while start < end and s[byte=start] == leading:
@@ -43,11 +43,11 @@ struct su(Movable):
       return String(s[byte=start:end])
 
    @staticmethod
-   fn find(s: String, sub: String) -> Int:
+   def find(s: String, sub: String) -> Int:
       return su.find(s, sub, 0)
 
    @staticmethod
-   fn find(s: String, sub: String, start: Int) -> Int:
+   def find(s: String, sub: String, start: Int) -> Int:
       var len = s.__len__()
       var sub_len = sub.__len__()
       for i in range(start, len - sub_len + 1):
@@ -61,7 +61,7 @@ struct su(Movable):
       return -1
 
    @staticmethod
-   fn split_to_strings(s: String, sep: String) -> String:
+   def split_to_strings(s: String, sep: String) -> String:
       var s1 = s
       var result = String()
       var index: Int = su.find(s1, sep, 0)
@@ -74,7 +74,7 @@ struct su(Movable):
       return result
 
    @staticmethod
-   fn split(s: String, sep: String) -> List[String]:
+   def split(s: String, sep: String) -> List[String]:
       var s1 = s
       var result: List[String] = List[String]()
       var index: Int = su.find(s1, sep, 0)
@@ -88,7 +88,7 @@ struct su(Movable):
       return result^
 
    @staticmethod
-   fn remove_char(s: String, char: String) -> String:
+   def remove_char(s: String, char: String) -> String:
       var result = String()
       if char.__len__() == 1:
          for i in range(len(s)):
@@ -98,7 +98,7 @@ struct su(Movable):
       return result
 
    @staticmethod
-   fn count_char(s: String, char: String) -> Int:
+   def count_char(s: String, char: String) -> Int:
       var count = 0
       if char.__len__() == 1:
          for i in range(len(s)):
@@ -107,16 +107,16 @@ struct su(Movable):
       return count
 
    @staticmethod
-   fn substr(s: String, start: Int, length: Int) -> String:
+   def substr(s: String, start: Int, length: Int) -> String:
       return String(s[byte=start:start+length])
 
    @staticmethod
-   fn substr(s: String, start: Int) -> String:
+   def substr(s: String, start: Int) -> String:
       var length = len(s) - start
       return String(s[byte=start:start+length])
 
    @staticmethod
-   fn build_string(char: String, length: Int) -> String:
+   def build_string(char: String, length: Int) -> String:
       var result = String()
       for _ in range(length):
          result += char

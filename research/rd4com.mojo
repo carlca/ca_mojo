@@ -1,4 +1,4 @@
-fn main():
+def main():
   var x = StaticTuple[4,Int](1,2,3,4)
   var x2 = [1, 1.9] #ListLiteral[Int,Float64]
 

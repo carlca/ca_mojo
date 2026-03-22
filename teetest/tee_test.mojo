@@ -2,20 +2,20 @@ from std.collections import List
 from std.utils.variant import Variant
 from std.reflection import source_location
 
-comptime TestFn = fn() raises -> Tuple[Bool, String]
+comptime TestFn = def() raises -> Tuple[Bool, String]
 
 @fieldwise_init
 struct Passed(Writable, Copyable, Movable):
    var name: String
    
-   fn write_to(self, mut writer: Some[Writer]):
+   def write_to(self, mut writer: Some[Writer]):
       writer.write("Passed(", self.name, ")")
 
 @fieldwise_init
 struct Failed(Writable, Copyable, Movable):
    var name: String
 
-   fn write_to(self, mut writer: Some[Writer]):
+   def write_to(self, mut writer: Some[Writer]):
       writer.write("Failed(", self.name, ")")
 
 
@@ -23,7 +23,7 @@ struct Failed(Writable, Copyable, Movable):
 struct Raised(Writable, Copyable, Movable):
    var message: String
 
-   fn write_to(self, mut writer: Some[Writer]):
+   def write_to(self, mut writer: Some[Writer]):
       var message = self.message
       if not message:
          writer.write("Raised an exception")
@@ -36,19 +36,19 @@ comptime TestResult = Variant[Passed, Failed, Raised]
 struct TeeTest(Copyable, Movable):
    var tests: List[TestFn]
 
-   fn __init__(out self, *tests: TestFn):
+   def __init__(out self, *tests: TestFn):
       self.tests = List[TestFn]()
       for test in tests:      ## Line 36
          self.add_test(test)  ## Line 37
 
-   fn count(self) -> Int:
+   def count(self) -> Int:
       return len(self.tests)
 
-   fn add_test(mut self, func: TestFn):
+   def add_test(mut self, func: TestFn):
       self.tests.append(func)
 
    @staticmethod
-   fn _run_test(f: TestFn) -> TestResult:
+   def _run_test(f: TestFn) -> TestResult:
       var succeeded: Bool
       var source_loc: String
       try:
@@ -59,7 +59,7 @@ struct TeeTest(Copyable, Movable):
          else TestResult(Failed(source_loc))
 
    @staticmethod
-   fn _res_to_str(self: TestResult) -> String:
+   def _res_to_str(self: TestResult) -> String:
       if self.isa[Passed]():
          return String(self[Passed])
       elif self.isa[Failed]():
@@ -67,7 +67,7 @@ struct TeeTest(Copyable, Movable):
       else:
          return String(self[Raised])
 
-   fn run_tests(self, failed_only: Bool = True) raises:
+   def run_tests(self, failed_only: Bool = True) raises:
       var succ_count = 0
       var fail_count = 0
       for i in range(self.count()):
@@ -80,10 +80,10 @@ struct TeeTest(Copyable, Movable):
             var s = f.read()
             var code_lines = s.split("\n")
 
-            # Find the last line that begins with "fn test" before index: line
+            # Find the last line that begins with "def test" before index: line
             var fn_name_line: String = ""
             for j in range(line - 1, -1, -1):
-               if code_lines[j].strip().startswith("fn test"):
+               if code_lines[j].strip().startswith("def test"):
                   fn_name_line = String(code_lines[j])
                   break
 
@@ -103,7 +103,7 @@ struct TeeTest(Copyable, Movable):
       print("--------------------------------------------")
 
    @staticmethod
-   fn unpack_loc(loc: String) raises -> Tuple[String, Int, Int, String]:
+   def unpack_loc(loc: String) raises -> Tuple[String, Int, Int, String]:
       var content = loc[byte=loc.find("(")+1:-1]
       var parts = content.split(":")
       var file_name = String(":".join(parts[:-2]))

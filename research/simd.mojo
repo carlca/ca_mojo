@@ -1,6 +1,6 @@
 from builtin.simd import *
 
-fn main() raises:
+def main() raises:
     # Create two vectors of 4 floats
     var a = float4(1.0, 2.0, 3.0, 4.0)
     var b = float4(5.0, 6.0, 7.0, 8.0)

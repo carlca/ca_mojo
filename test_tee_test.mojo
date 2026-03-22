@@ -2,22 +2,22 @@ from teetest.tee_test import TeeTest
 from std.reflection import source_location, SourceLocation
 
 @always_inline
-fn test1() raises -> Tuple[Bool, String]:
+def test1() raises -> Tuple[Bool, String]:
    return True, String(source_location())
 
 @always_inline
-fn test2() raises -> Tuple[Bool, String]:
+def test2() raises -> Tuple[Bool, String]:
    return True, String(source_location())
 
 @always_inline
-fn test3() raises -> Tuple[Bool, String]:
+def test3() raises -> Tuple[Bool, String]:
    return True, String(source_location())
 
 @always_inline
-fn test4() raises -> Tuple[Bool, String]:
+def test4() raises -> Tuple[Bool, String]:
    return True, String(source_location())
 
-fn main() raises:
+def main() raises:
    TeeTest(
       test1,
       test2,

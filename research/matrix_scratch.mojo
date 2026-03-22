@@ -1,6 +1,6 @@
 from python import PythonObject
 
-fn main():
+def main():
   var col = "3.14159"
   # Convert the string col to a float64
   var p = PythonObject(col)

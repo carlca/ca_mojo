@@ -2,7 +2,7 @@
 struct fu(Copyable, Movable):
 
    @staticmethod
-   fn str_to_float(s: String) raises -> Float64:
+   def str_to_float(s: String) raises -> Float64:
       try:
          # locate decimal point
          var dot_pos = s.find(".")
@@ -27,7 +27,7 @@ struct fu(Copyable, Movable):
          return 0.0
 
    @staticmethod
-   fn format_float(f: Float64, dec_places: Int) -> String:
+   def format_float(f: Float64, dec_places: Int) -> String:
       # get input number as a string
       var f_str = String(f)
       # use position of the decimal point to determine the number of decimal places

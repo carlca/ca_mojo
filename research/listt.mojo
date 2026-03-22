@@ -12,22 +12,22 @@ struct List[T: AnyType]:
   var _end_of_strings: DynamicVector[Int]
   var iter_index: Int
 
-  fn __init__(out self):
+  def __init__(out self):
     self._internal_string = ""
     self._end_of_strings = DynamicVector[Int]()
     self.iter_index = 0
 
-  fn __init__(out self, input_value: String):
+  def __init__(out self, input_value: String):
     self._internal_string = ""
     self._end_of_strings = DynamicVector[Int]()
     for i in range(len(input_value)):
       self.append(input_value[i])
 
-  fn append(out self, value: String):
+  def append(out self, value: String):
     self._internal_string += value
     self._end_of_strings.push_back(len(self._internal_string))
 
-  fn __getitem__(self, index: Int) raises -> String:
+  def __getitem__(self, index: Int) raises -> String:
     if index >= len(self._end_of_strings):
       raise Error("list index out of range")
     var start: Int
@@ -37,16 +37,16 @@ struct List[T: AnyType]:
       start = self._end_of_strings[index - 1]
     return self._internal_string[start : self._end_of_strings[index]]
 
-  fn __getitem__(self: Self, limits: slice) raises -> Self:
+  def __getitem__(self: Self, limits: slice) raises -> Self:
     var new_list: Self = Self()
     for i in range(limits.start, limits.end, limits.step):
       new_list.append(self.__getitem__(i))
     return new_list
 
-  fn __len__(self) -> Int:
+  def __len__(self) -> Int:
     return len(self._end_of_strings)
 
-  fn __str__(self: Self) raises -> String:
+  def __str__(self: Self) raises -> String:
     var result: String = "["
     for i in range(self.__len__()):
       result += "'" + self.__getitem__(i) + "'"
@@ -55,10 +55,10 @@ struct List[T: AnyType]:
     result += "]"
     return result
 
-  fn __iter__(self) -> ListIter[T]:
+  def __iter__(self) -> ListIter[T]:
     return ListIter(self)
 
-  fn str(borrowed self) raises -> String:
+  def str(borrowed self) raises -> String:
     var result: String = ""
     for i in range(self.__len__()):
       result += self.__getitem__(i)

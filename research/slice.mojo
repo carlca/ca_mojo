@@ -1,10 +1,10 @@
 from collections import List
 from builtin.io import _printf as printf
 
-fn function():
+def function():
   pass
 
-fn main():
+def main():
   var l = List[Int]()
   print("length of list is ",len(l))
   l += 1

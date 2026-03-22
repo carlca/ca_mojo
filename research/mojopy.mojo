@@ -6,7 +6,7 @@ from list import List
 import string_utils as su
 import float_utils as fu
 
-fn main() raises:
+def main() raises:
   var s1: String = "[[1.1, 1.1, 1.1], [2.2, 2.2, 2.2], [3.3, 3.3, 3.3], [4.4, 4.4, 4.4]]"
   var mm = Matrix(s1)
   print("mm.print()")

@@ -4,7 +4,7 @@ from std.collections import list
 from std.reflection import source_location, SourceLocation
 
 @always_inline
-fn test_str_to_float_to_rounded_string() raises -> Tuple[Bool, String]:
+def test_str_to_float_to_rounded_string() raises -> Tuple[Bool, String]:
    comptime pi_str = "3.1415926234534563"
    var pi = fu.str_to_float(pi_str)
    var assert1 = fu.format_float(pi, 5) == "3.14159"
@@ -12,7 +12,7 @@ fn test_str_to_float_to_rounded_string() raises -> Tuple[Bool, String]:
    var assert3 = fu.format_float(pi, 7) == "3.1415926"
    return assert1 and assert2 and assert3, String(source_location())
 
-fn main() raises:
+def main() raises:
    TeeTest(
       test_str_to_float_to_rounded_string,
    ).run_tests(False)

@@ -1,7 +1,7 @@
 from collections import List
 from builtin.io import _printf as printf
 
-fn main() raises:
+def main() raises:
   var v = List[UInt8]()
   v.push_back(16)
   v.push_back(0)
@@ -14,7 +14,7 @@ fn main() raises:
   printf("dec: %d\n", size)
   printf("hex: %x", size)
 
-fn vec_to_string(data: List[UInt8]) raises -> String:
+def vec_to_string(data: List[UInt8]) raises -> String:
   var result = String()
   for i in range(0, len(data)):
     if data[i] == 0x00:
@@ -22,13 +22,13 @@ fn vec_to_string(data: List[UInt8]) raises -> String:
     result += chr(data[i].to_int())
   return result
 
-fn vec_to_hex(data: List[UInt8]) raises -> String:
+def vec_to_hex(data: List[UInt8]) raises -> String:
   var result = String()
   for i in range(0, len(data)):
     result += hex(data[i], False)
   return result
 
-fn hex(x: UInt8, top_and_tail: Bool) -> String:
+def hex(x: UInt8, top_and_tail: Bool) -> String:
   alias hex_table: String = "0123456789abcdef"
   if top_and_tail:
     return "0x" + hex_table[(x >> 4).to_int()] + hex_table[(x & 0xF).to_int()] + " "

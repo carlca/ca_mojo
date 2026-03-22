@@ -1,6 +1,6 @@
 import .floatutils as fu
 
-fn main() raises:
+def main() raises:
     var pi_str = "3.1415926234534563"
     print("pi_str: ", pi_str)
     var pi = fu.str_to_float(pi_str)

@@ -1,4 +1,4 @@
 from memory import LegacyUnsafePointer, memcpy
 
-fn main():
+def main():
    print("Hello, World!")
