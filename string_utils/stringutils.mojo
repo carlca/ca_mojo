@@ -35,7 +35,7 @@ struct su(Movable):
    @staticmethod
    def trim(s: String, leading: String, trailing: String) -> String:
       var start = 0
-      var end = len(s)
+      var end = s.byte_length()
       while start < end and s[byte=start] == leading:
          start += 1
       while end > start and s[byte=end - 1] == trailing:
@@ -48,8 +48,8 @@ struct su(Movable):
 
    @staticmethod
    def find(s: String, sub: String, start: Int) -> Int:
-      var len = s.__len__()
-      var sub_len = sub.__len__()
+      var len = s.byte_length()
+      var sub_len = sub.byte_length()
       for i in range(start, len - sub_len + 1):
          var is_match = True
          for j in range(sub_len):
@@ -81,17 +81,17 @@ struct su(Movable):
       while index >= 0:
          result.append(String(s1[byte=0:index]))
          # s1 = s1[index + len(sep):len(s1)]
-         s1 = String(s1[byte=index + len(sep):len(s1)])         
+         s1 = String(s1[byte=index + sep.byte_length():s1.byte_length()])         
          index = su.find(s1, sep, 0)
-      if len(s1) > 0:
+      if s1.byte_length() > 0:
          result.append(s1)
       return result^
 
    @staticmethod
    def remove_char(s: String, char: String) -> String:
       var result = String()
-      if char.__len__() == 1:
-         for i in range(len(s)):
+      if char.byte_length() == 1:
+         for i in range(s.byte_length()):
             var c = s[byte=i]
             if c != char:
                result += c
@@ -100,8 +100,8 @@ struct su(Movable):
    @staticmethod
    def count_char(s: String, char: String) -> Int:
       var count = 0
-      if char.__len__() == 1:
-         for i in range(len(s)):
+      if char.byte_length() == 1:
+         for i in range(s.byte_length()):
             if s[byte=i] == char:
                count += 1
       return count
@@ -112,7 +112,7 @@ struct su(Movable):
 
    @staticmethod
    def substr(s: String, start: Int) -> String:
-      var length = len(s) - start
+      var length = s.byte_length() - start
       return String(s[byte=start:start+length])
 
    @staticmethod
