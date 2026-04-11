@@ -2,7 +2,7 @@ from std.collections import List
 from std.utils.variant import Variant
 from std.reflection import source_location
 
-comptime TestFn = def() raises -> Tuple[Bool, String]
+comptime TestFn = def() raises thin -> Tuple[Bool, String]
 
 @fieldwise_init
 struct Passed(Writable, Copyable, Movable):
