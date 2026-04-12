@@ -107,6 +107,6 @@ struct TeeTest(Copyable, Movable):
       var content = loc[byte=loc.find("(")+1:-1]
       var parts = content.split(":")
       var file_name = String(":".join(parts[:-2]))
-      var line = parts[-2].__int__()
-      var col = parts[-1].__int__()
+      var line = parts[len(parts)-2].__int__()
+      var col = parts[len(parts)-1].__int__()
       return (file_name, line, col, "")
