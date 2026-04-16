@@ -120,8 +120,8 @@ struct Matrix(ImplicitlyCopyable):
    def __sub__ (read self, other: Matrix) -> Matrix:
       if self.rows != other.rows or self.cols != other.cols:
          print("Error: Matrix dimensions must match")
-         return Matrix(1, 1)
-      var result = Matrix(self.rows, self.cols)
+         return Matrix(rows=1, cols=1)
+      var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
             result[i, j] = self[i, j] - other[i, j]
@@ -133,7 +133,7 @@ struct Matrix(ImplicitlyCopyable):
    def __mul__ (read self, other: Matrix) -> Matrix:
       if self.cols != other.rows:
          print("Error: Matrix dimensions must match")
-         return Matrix(1, 1)
+         return Matrix(rows=1, cols=1)
       var result = Matrix(rows=self.rows, cols=other.cols)
       for i in range(self.rows):
          for j in range(other.cols):
@@ -162,7 +162,7 @@ struct Matrix(ImplicitlyCopyable):
       self = self + other
 
    def __sub__ (read self, other: Float64) -> Matrix:
-      var result = Matrix(self.rows, self.cols)
+      var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
             result[i, j] = self[i, j] - other
@@ -172,7 +172,7 @@ struct Matrix(ImplicitlyCopyable):
       self = self - other
 
    def __mul__ (read self, other: Float64) -> Matrix:
-      var result = Matrix(self.rows, self.cols)
+      var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
             result[i, j] = self[i, j] * other
@@ -182,7 +182,7 @@ struct Matrix(ImplicitlyCopyable):
       self = self * other
 
    def __truediv__ (read self, other: Float64) -> Matrix:
-      var result = Matrix(self.rows, self.cols)
+      var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
             result[i, j] = self[i, j] / other
@@ -192,21 +192,21 @@ struct Matrix(ImplicitlyCopyable):
       self = self / other
 
    def __neg__ (read self) -> Matrix:
-      var result = Matrix(self.rows, self.cols)
+      var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
             result[i, j] = -self[i, j]
       return result
 
-   def apply_func [func: fn(Float64) -> Float64](read self) -> Matrix:
-      var result = Matrix(self.rows, self.cols)
+   def apply_func [func: def(Float64) thin -> Float64](read self) -> Matrix:
+      var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
             result[i, j] = func(self[i, j])
       return result
 
    def transpose (read self) -> Matrix:
-      var result = Matrix(self.cols, self.rows)
+      var result = Matrix(rows=self.cols, cols=self.rows)
       for i in range(self.rows):
          for j in range(self.cols):
             result[j, i] = self[i, j]
@@ -246,13 +246,13 @@ struct Matrix(ImplicitlyCopyable):
       return (self.rows, self.cols)
 
    def get_row (read self, row: Int) -> Matrix:
-      var result = Matrix(1, self.cols)
+      var result = Matrix(rows=1, cols=self.cols)
       for i in range(self.cols):
          result[0, i] = self[row, i]
       return result
 
    def get_col (read self, col: Int) -> Matrix:
-      var result = Matrix(self.rows, 1)
+      var result = Matrix(rows=self.rows, cols=1)
       for i in range(self.rows):
          result[i, 0] = self[i, col]
       return result
@@ -275,8 +275,8 @@ struct Matrix(ImplicitlyCopyable):
       if row_start < 0 or row_start >= self.rows or row_end < 0 or row_end >= self.rows
          or col_start < 0 or col_start >= self.cols or col_end < 0 or col_end >= self.cols:
          print("Error: Index out of bounds")
-         return Matrix(1, 1)
-      var result = Matrix(row_end - row_start + 1, col_end - col_start + 1)
+         return Matrix(rows=1, cols=1)
+      var result = Matrix(rows=row_end - row_start + 1, cols=col_end - col_start + 1)
       for i in range(row_start, row_end + 1):
          for j in range(col_start, col_end + 1):
             result[i - row_start, j - col_start] = self[i, j]
