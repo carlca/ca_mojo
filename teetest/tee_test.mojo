@@ -70,12 +70,13 @@ struct TeeTest(Copyable, Movable):
    def run_tests(self, failed_only: Bool = True) raises:
       var succ_count = 0
       var fail_count = 0
+      print("\n")
       for i in range(self.count()):
          var res = self._run_test(self.tests[i])
 
          var loc = self._res_to_str(res)
          var file_name: String; var line: Int; var success: String
-         file_name, line, _, success = self.unpack_loc(loc)
+         file_name, line = self.unpack_loc(loc)
          with open(file_name, "r") as f:
             var s = f.read()
             var code_lines = s.split("\n")
@@ -87,8 +88,9 @@ struct TeeTest(Copyable, Movable):
                   fn_name_line = String(code_lines[j])
                   break
 
+            if res.isa[Passed](): success = "✅ passed" else: success = "❌ failed"
             var fn_name = fn_name_line[byte=:fn_name_line.find("()")]
-            var str = "Test " + String(i + 1) + ": " + fn_name + ": " + success
+            var str = "Test " + String(i + 1) + ": " + fn_name + ": " + success + "\n"
 
             if res.isa[Passed]():
                succ_count += 1
@@ -103,10 +105,9 @@ struct TeeTest(Copyable, Movable):
       print("--------------------------------------------")
 
    @staticmethod
-   def unpack_loc(loc: String) raises -> Tuple[String, Int, Int, String]:
+   def unpack_loc(loc: String) raises -> Tuple[String, Int]:
       var content = loc[byte=loc.find("(")+1:-1]
       var parts = content.split(":")
       var file_name = String(":".join(parts[:-2]))
       var line = parts[len(parts)-2].__int__()
-      var col = parts[len(parts)-1].__int__()
-      return (file_name, line, col, "")
+      return (file_name, line)
