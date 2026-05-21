@@ -88,9 +88,9 @@ struct TeeTest(Copyable, Movable):
                   fn_name_line = String(code_lines[j])
                   break
 
-            if res.isa[Passed](): success = "✅ passed" else: success = "❌ failed"
+            if res.isa[Passed](): success = "\033[1;32m passed\033[0m" else: success = "\033[1;31m failed\033[0m"
             var fn_name = fn_name_line[byte=:fn_name_line.find("()")]
-            var str = "Test " + String(i + 1) + ": " + fn_name + ": " + success + "\n"
+            var str = "Test " + String(i + 1) + ": " + fn_name + ": " + success
 
             if res.isa[Passed]():
                succ_count += 1
@@ -102,7 +102,7 @@ struct TeeTest(Copyable, Movable):
       print(" Total number of tests run: ", self.count())
       print("    Number of tests passed: ", succ_count)
       print("    Number of tests failed: ", fail_count)
-      print("--------------------------------------------")
+      print("--------------------------------------------\n")
 
    @staticmethod
    def unpack_loc(loc: String) raises -> Tuple[String, Int]:

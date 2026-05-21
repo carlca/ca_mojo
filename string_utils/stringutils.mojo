@@ -10,27 +10,27 @@ struct su(Movable):
 
    @staticmethod
    def rjust(input_string: String, width: Int, fillchar: String = " ") raises -> String:
-      if len(fillchar) != 1:
+      if fillchar.byte_length() != 1:
          raise Error(" The fill character must be exactly one character long")
-      var extra = width - len(input_string)
+      var extra = width - input_string.byte_length()
       return su.__string__mul__(fillchar, extra) + input_string
 
    @staticmethod
    def ljust(input_string: String, width: Int, fillchar: String = " ") raises -> String:
-      if len(fillchar) != 1:
+      if fillchar.byte_length() != 1:
          raise Error(" The fill character must be exactly one character long")
-      var extra = width - len(input_string)
+      var extra = width - input_string.byte_length()
       return input_string + su.__string__mul__(fillchar, extra)
 
    @staticmethod
    def endswith(input_string: String, suffix: String, start: Int = 0, var end: Int = -1) raises -> Bool:
       if end == -1:
-         end = len(input_string)
+         end = input_string.byte_length()
       if end < start:
          raise Error("The end index must be greater than or equal to the start index")
-      if end - start < len(suffix):
+      if end - start < suffix.byte_length():
          return False
-      return input_string[byte=end - len(suffix):end] == suffix
+      return input_string[byte=end - suffix.byte_length():end] == suffix
 
    @staticmethod
    def trim(s: String, leading: String, trailing: String) -> String:
@@ -67,9 +67,9 @@ struct su(Movable):
       var index: Int = su.find(s1, sep, 0)
       while index >= 0:
          result += s1[byte=0:index] + "\n"
-         s1 = s1[byte=index + len(sep):len(s1)]
+         s1 = String(s1[byte=index + sep.byte_length():s1.byte_length()])
          index = su.find(s1, sep, 0)
-      if len(s1) > 0:
+      if s1.byte_length() > 0:
          result += s1
       return result
 
@@ -80,7 +80,6 @@ struct su(Movable):
       var index: Int = su.find(s1, sep, 0)
       while index >= 0:
          result.append(String(s1[byte=0:index]))
-         # s1 = s1[index + len(sep):len(s1)]
          s1 = String(s1[byte=index + sep.byte_length():s1.byte_length()])         
          index = su.find(s1, sep, 0)
       if s1.byte_length() > 0:
