@@ -3,7 +3,7 @@ from std.memory.unsafe_pointer import UnsafePointer, memcpy
 from string_utils import su
 from float_utils import fu
 
-comptime DataType = UnsafePointer[mut=True, Scalar[DType.float64], MutExternalOrigin]
+comptime DataType = UnsafePointer[mut=True, Scalar[DType.float64], MutUntrackedOrigin]
 
 struct Matrix(ImplicitlyCopyable):
    '''Simple 2d matrix that uses Float64.'''
