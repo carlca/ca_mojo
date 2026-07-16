@@ -1,4 +1,5 @@
-from std.memory.unsafe_pointer import UnsafePointer, memcpy
+from std.memory.unsafe_pointer import UnsafePointer
+from std.memory import unsafe_memcpy
 
 from string_utils import su
 from float_utils import fu
@@ -64,7 +65,7 @@ struct Matrix(ImplicitlyCopyable):
       self.total_items = copy.total_items
       self.debugging = copy.debugging
       self.data = alloc[Scalar[DType.float64]](self.total_items)
-      memcpy[Float64](dest=self.data, src=copy.data, count=self.total_items)
+      unsafe_memcpy[Float64](dest=self.data, src=copy.data, count=self.total_items)
 
    def dbg(read self, msg: String, value: String) -> None:
       if self.debugging:
