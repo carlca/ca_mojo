@@ -75,7 +75,7 @@ struct Matrix(ImplicitlyCopyable):
       if self.debugging:
          print(msg, value)
 
-   def __getitem__(read self, row: Int, col: Int) -> Float64:
+   def __getitem__(imm self, row: Int, col: Int) -> Float64:
       var index = row * self.cols + col
       if index < 0 or index >= self.total_items:
          print("Error: Index out of bounds")
@@ -105,7 +105,7 @@ struct Matrix(ImplicitlyCopyable):
    def __ne__ (read self, other: Matrix) -> Bool:
       return not (self == other)
 
-   def __add__ (read self, other: Matrix) -> Matrix:
+   def __add__ (imm self, other: Matrix) -> Matrix:
       if self.rows != other.rows or self.cols != other.cols:
          print("Error: Matrix dimensions must match")
          return Matrix(rows=1, cols=1)
@@ -152,7 +152,7 @@ struct Matrix(ImplicitlyCopyable):
             result[i, j] = self[i, j] / other[i, j]
       return result
 
-   def __add__ (read self, other: Float64) -> Matrix:
+   def __add__ (imm self, other: Float64) -> Matrix:
       var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
@@ -219,13 +219,13 @@ struct Matrix(ImplicitlyCopyable):
    def print_to(read self, places: Int) -> None:
       print(self.get_data_as_string(places))
 
-   def get_data_as_string(read self) -> String:
+   def get_data_as_string(imm self) -> String:
       return self.get_data_as_string(0)
 
-   def string_to(read self, places: Int) -> String:
+   def string_to(imm self, places: Int) -> String:
       return self.get_data_as_string(places)
 
-   def get_data_as_string(read self, places: Int) -> String:
+   def get_data_as_string(imm self, places: Int) -> String:
       var result: String = "["
       for i in range(self.rows):
          result += "["

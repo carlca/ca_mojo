@@ -80,7 +80,8 @@ struct su(Movable):
       var index: Int = su.find(s1, sep, 0)
       while index >= 0:
          result.append(String(s1[byte=0:index]))
-         s1 = String(s1[byte=index + sep.byte_length():s1.byte_length()])         
+         var next = String(s1[byte=index + sep.byte_length():s1.byte_length()])
+         s1 = next^
          index = su.find(s1, sep, 0)
       if s1.byte_length() > 0:
          result.append(s1)
