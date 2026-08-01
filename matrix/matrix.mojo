@@ -23,7 +23,7 @@ struct Matrix(ImplicitlyCopyable):
       self.total_items = self.rows * self.cols
       self.data = alloc[Scalar[DType.float64]](self.total_items)
       for i in range(self.total_items):
-         DataType.store(self.data, i, 0.0)
+         DataType.unsafe_store(self.data, i, 0.0)
 
    def __init__(out self, *, content: String) raises:
       self.debugging = True
@@ -54,7 +54,7 @@ struct Matrix(ImplicitlyCopyable):
                   var cols = su.split(row, ",")
                   for col in cols:
                      var f = fu.str_to_float(col)
-                     DataType.store(self.data, i, f)
+                     DataType.unsafe_store(self.data, i, f)
                      i += 1
       except:
          None
@@ -80,17 +80,17 @@ struct Matrix(ImplicitlyCopyable):
       if index < 0 or index >= self.total_items:
          print("Error: Index out of bounds")
          return 0.0
-      return self.data.load[width=1](index)
+      return self.data.unsafe_load[width=1](index)
 
    def __setitem__(mut self, row: Int, col: Int, value: Float64) -> None:
       var index = row * self.cols + col
       if index < 0 or index >= self.total_items:
          print("Error: Index out of bounds")
          return
-      DataType.store(self.data, index, value)
+      DataType.unsafe_store(self.data, index, value)
 
-   def __del__(deinit self) -> None:
-      self.data.free()
+   def __deinit__(deinit self) -> None:
+      self.data.unsafe_free()
 
    def __len__(read self) -> Int:
       return self.total_items
