@@ -106,8 +106,9 @@ struct TeeTest(Copyable, Movable):
 
    @staticmethod
    def unpack_loc(loc: String) raises -> Tuple[String, Int]:
-      var content = loc[byte=loc.find("(")+1:-1]
+      var content = loc[byte=loc.find("(")+1:loc.byte_length()]
       var parts = content.split(":")
-      var file_name = String(":".join(parts[:-2]))
-      var line = parts[len(parts)-2].__int__()
+      var num_parts = len(parts)
+      var file_name = String(":".join(parts[:num_parts-2]))
+      var line = parts[num_parts-2].__int__()
       return (file_name, line)
