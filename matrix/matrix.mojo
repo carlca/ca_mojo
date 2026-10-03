@@ -93,17 +93,17 @@ struct Matrix(ImplicitlyCopyable):
    def __deinit__(deinit self) -> None:
       self.data.unsafe_free()
 
-   def __len__(read self) -> Int:
+   def __len__(imm self) -> Int:
       return self.total_items
 
-   def __eq__ (read self, other: Matrix) -> Bool:
+   def __eq__ (imm self, other: Matrix) -> Bool:
       for i in range(self.rows):
          for j in range(self.cols):
             if self[i, j] != other[i, j]:
                return False
       return True
 
-   def __ne__ (read self, other: Matrix) -> Bool:
+   def __ne__ (imm self, other: Matrix) -> Bool:
       return not (self == other)
 
    def __add__ (imm self, other: Matrix) -> Matrix:
@@ -119,7 +119,7 @@ struct Matrix(ImplicitlyCopyable):
    def __iadd__ (mut self, other: Matrix) -> None:
       self = self + other
 
-   def __sub__ (read self, other: Matrix) -> Matrix:
+   def __sub__ (imm self, other: Matrix) -> Matrix:
       if self.rows != other.rows or self.cols != other.cols:
          print("Error: Matrix dimensions must match")
          return Matrix(rows=1, cols=1)
@@ -132,7 +132,7 @@ struct Matrix(ImplicitlyCopyable):
    def __isub__ (mut self: Matrix, other: Matrix) -> None:
       self = self - other
 
-   def __mul__ (read self, other: Matrix) -> Matrix:
+   def __mul__ (imm self, other: Matrix) -> Matrix:
       if self.cols != other.rows:
          print("Error: Matrix dimensions must match")
          return Matrix(rows=1, cols=1)
@@ -143,7 +143,7 @@ struct Matrix(ImplicitlyCopyable):
                result[i, j] += self[i, k] * other[k, j]
       return result
 
-   def __truediv__ (read self, other: Matrix) -> Matrix:
+   def __truediv__ (imm self, other: Matrix) -> Matrix:
       if self.rows != other.rows or self.cols != other.cols:
          print("Error: Matrix dimensions must match")
          return Matrix(rows=1, cols=1)
@@ -163,7 +163,7 @@ struct Matrix(ImplicitlyCopyable):
    def __iadd__ (mut self: Matrix, other: Float64) -> None:
       self = self + other
 
-   def __sub__ (read self, other: Float64) -> Matrix:
+   def __sub__ (imm self, other: Float64) -> Matrix:
       var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
@@ -173,7 +173,7 @@ struct Matrix(ImplicitlyCopyable):
    def __isub__ (mut self: Matrix, other: Float64) -> None:
       self = self - other
 
-   def __mul__ (read self, other: Float64) -> Matrix:
+   def __mul__ (imm self, other: Float64) -> Matrix:
       var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
@@ -183,7 +183,7 @@ struct Matrix(ImplicitlyCopyable):
    def __imul__ (mut self: Matrix, other: Float64) -> None:
       self = self * other
 
-   def __truediv__ (read self, other: Float64) -> Matrix:
+   def __truediv__ (imm self, other: Float64) -> Matrix:
       var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
@@ -193,31 +193,31 @@ struct Matrix(ImplicitlyCopyable):
    def __itruediv__ (mut self: Matrix, other: Float64) -> None:
       self = self / other
 
-   def __neg__ (read self) -> Matrix:
+   def __neg__ (imm self) -> Matrix:
       var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
             result[i, j] = -self[i, j]
       return result
 
-   def apply_func [func: def(Float64) thin -> Float64](read self) -> Matrix:
+   def apply_func [func: def(Float64) thin -> Float64](imm self) -> Matrix:
       var result = Matrix(rows=self.rows, cols=self.cols)
       for i in range(self.rows):
          for j in range(self.cols):
             result[i, j] = func(self[i, j])
       return result
 
-   def transpose (read self) -> Matrix:
+   def transpose (imm self) -> Matrix:
       var result = Matrix(rows=self.cols, cols=self.rows)
       for i in range(self.rows):
          for j in range(self.cols):
             result[j, i] = self[i, j]
       return result
 
-   def print (read self) -> None:
+   def print (imm self) -> None:
       print(self.get_data_as_string())
 
-   def print_to(read self, places: Int) -> None:
+   def print_to(imm self, places: Int) -> None:
       print(self.get_data_as_string(places))
 
    def get_data_as_string(imm self) -> String:
@@ -241,19 +241,19 @@ struct Matrix(ImplicitlyCopyable):
       result = result + "]"
       return result
 
-   def print_shape (read self) -> None:
+   def print_shape (imm self) -> None:
       print("(", self.rows, ", ", self.cols, ")")
 
-   def get_shape (read self) -> Tuple[Int, Int]:
+   def get_shape (imm self) -> Tuple[Int, Int]:
       return (self.rows, self.cols)
 
-   def get_row (read self, row: Int) -> Matrix:
+   def get_row (imm self, row: Int) -> Matrix:
       var result = Matrix(rows=1, cols=self.cols)
       for i in range(self.cols):
          result[0, i] = self[row, i]
       return result
 
-   def get_col (read self, col: Int) -> Matrix:
+   def get_col (imm self, col: Int) -> Matrix:
       var result = Matrix(rows=self.rows, cols=1)
       for i in range(self.rows):
          result[i, 0] = self[i, col]
@@ -273,7 +273,7 @@ struct Matrix(ImplicitlyCopyable):
       for i in range(self.rows):
          self[i, col] = other[i, 0]
 
-   def get_slice (read self, row_start: Int, row_end: Int, col_start: Int, col_end: Int) -> Matrix:
+   def get_slice (imm self, row_start: Int, row_end: Int, col_start: Int, col_end: Int) -> Matrix:
       if row_start < 0 or row_start >= self.rows or row_end < 0 or row_end >= self.rows
          or col_start < 0 or col_start >= self.cols or col_end < 0 or col_end >= self.cols:
          print("Error: Index out of bounds")
@@ -295,37 +295,37 @@ struct Matrix(ImplicitlyCopyable):
          for j in range(col_start, col_end + 1):
             self[i, j] = other[i - row_start, j - col_start]
 
-   def get_slice_row (read self, row_start: Int, row_end: Int) -> Matrix:
+   def get_slice_row (imm self, row_start: Int, row_end: Int) -> Matrix:
       return self.get_slice(row_start, row_end, 0, self.cols - 1)
 
    def set_slice_row (mut self: Matrix, row_start: Int, row_end: Int, other: Matrix) -> None:
       self.set_slice(row_start, row_end, 0, self.cols - 1, other)
 
-   def get_slice_col (read self, col_start: Int, col_end: Int) -> Matrix:
+   def get_slice_col (imm self, col_start: Int, col_end: Int) -> Matrix:
       return self.get_slice(0, self.rows - 1, col_start, col_end)
 
    def set_slice_col (mut self: Matrix, col_start: Int, col_end: Int, other: Matrix) -> None:
       self.set_slice(0, self.rows - 1, col_start, col_end, other)
 
-   def get_slice_row (read self, row: Int) -> Matrix:
+   def get_slice_row (imm self, row: Int) -> Matrix:
       return self.get_slice(row, row, 0, self.cols - 1)
 
    def set_slice_row (mut self: Matrix, row: Int, other: Matrix):
       self.set_slice(row, row, 0, self.cols - 1, other)
 
-   def get_slice_col (read self, col: Int) -> Matrix:
+   def get_slice_col (imm self, col: Int) -> Matrix:
       return self.get_slice(0, self.rows - 1, col, col)
 
    def set_slice_col (mut self: Matrix, col: Int, other: Matrix):
       self.set_slice(0, self.rows - 1, col, col, other)
 
-   def get_slice_row (read self, row_start: Int, row_end: Int, col: Int) -> Matrix:
+   def get_slice_row (imm self, row_start: Int, row_end: Int, col: Int) -> Matrix:
       return self.get_slice(row_start, row_end, col, col)
 
    def set_slice_row (mut self: Matrix, row_start: Int, row_end: Int, col: Int, other: Matrix):
       self.set_slice(row_start, row_end, col, col, other)
 
-   def get_slice_col (read self, row: Int, col_start: Int, col_end: Int) -> Matrix:
+   def get_slice_col (imm self, row: Int, col_start: Int, col_end: Int) -> Matrix:
       return self.get_slice(row, row, col_start, col_end)
 
    def set_slice_col (mut self: Matrix, row: Int, col_start: Int, col_end: Int, other: Matrix):
