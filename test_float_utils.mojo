@@ -17,23 +17,28 @@ def test_str_to_float_exact_values() raises -> Tuple[Bool, String]:
    var zero = fu.str_to_float("0.0")
    var fraction = fu.str_to_float("0.125")
    var mixed = fu.str_to_float("12.5")
-   return zero == 0.0 and fraction == 0.125 and mixed == 12.5,
-      String(source_location())
+   var assert1 = zero == 0.0
+   var assert2 = fraction == 0.125
+   var assert3 = mixed == 12.5
+   return assert1 and assert2 and assert3, String(source_location())
 
 @always_inline
 def test_format_float_rounds_down() raises -> Tuple[Bool, String]:
-   return fu.format_float(3.1415926, 5) == "3.14159" and fu.format_float(12.344, 2) == "12.34",
-      String(source_location())
+   var assert1 = fu.format_float(3.1415926, 5) == "3.14159"
+   var assert2 = fu.format_float(12.344, 2) == "12.34"
+   return assert1 and assert2, String(source_location())
 
 @always_inline
 def test_format_float_rounds_up() raises -> Tuple[Bool, String]:
-   return fu.format_float(3.141586, 5) == "3.14159" and fu.format_float(12.346, 2) == "12.35",
-      String(source_location())
+   var assert1 = fu.format_float(3.141586, 5) == "3.14159"
+   var assert2 = fu.format_float(12.346, 2) == "12.35"
+   return assert1 and assert2, String(source_location())
 
 @always_inline
 def test_format_float_preserves_trailing_zeroes() raises -> Tuple[Bool, String]:
-   return fu.format_float(2.5, 2) == "2.50" and fu.format_float(4.0, 3) == "4.000",
-      String(source_location())
+   var assert1 = fu.format_float(2.5, 2) == "2.50"
+   var assert2 = fu.format_float(4.0, 3) == "4.000"
+   return assert1 and assert2, String(source_location())
 
 def main() raises:
    TeeTest(
