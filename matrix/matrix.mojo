@@ -214,19 +214,19 @@ struct Matrix(ImplicitlyCopyable):
             result[j, i] = self[i, j]
       return result
 
-   def print (imm self) -> None:
+   def print (imm self) raises -> None:
       print(self.get_data_as_string())
 
-   def print_to(imm self, places: Int) -> None:
+   def print_to(imm self, places: Int) raises-> None:
       print(self.get_data_as_string(places))
 
-   def get_data_as_string(imm self) -> String:
+   def get_data_as_string(imm self) raises -> String:
       return self.get_data_as_string(0)
 
-   def string_to(imm self, places: Int) -> String:
+   def string_to(imm self, places: Int) raises -> String:
       return self.get_data_as_string(places)
 
-   def get_data_as_string(imm self, places: Int) -> String:
+   def get_data_as_string(imm self, places: Int) raises -> String:
       var result: String = "["
       for i in range(self.rows):
          result += "["

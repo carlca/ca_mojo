@@ -27,7 +27,7 @@ struct fu(Copyable, Movable):
          return 0.0
 
    @staticmethod
-   def format_float(f: Float64, dec_places: Int) -> String:
+   def format_float(f: Float64, dec_places: Int) raises -> String:
       # get input number as a string
       var f_str = String(f)
       # use position of the decimal point to determine the number of decimal places
