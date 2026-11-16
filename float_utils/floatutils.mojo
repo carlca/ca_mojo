@@ -9,7 +9,8 @@ struct fu(Copyable, Movable):
          # grab the integer part of the number
          var int_str = s[byte=0:dot_pos]
          # grab the decimal part of the number
-         var num_str = s[byte=dot_pos+1:s.byte_length()]
+         var dot_pos_next = dot_pos.value() + 1
+         var num_str = s[byte=dot_pos_next:s.byte_length()]
          # set the numerator to be the integer equivalent
          var numerator = atol(num_str)
          # construct denom_str to be "1" + "0"s for the length of the fraction
